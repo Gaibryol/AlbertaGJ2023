@@ -1,6 +1,0 @@
-[submodule "Core"]
-	path = Core
-	url = git@github.com:Gaibryol/Core.git
-[submodule "Assets/Core"]
-	path = Assets/Core
-	url = git@github.com:Gaibryol/Core.git
