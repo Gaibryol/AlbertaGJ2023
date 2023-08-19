@@ -10,10 +10,13 @@ public class EnemyHealthBarUI : MonoBehaviour
     private Slider healthBar;
     private GameObject worldCanvas;
 
+    private EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
     void Start()
     {
-        // For now... Prob get from GameBase or GameState later...
-        worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas");
+        GameStateEvents.GetWorldCanvas getWorldCanvas = new GameStateEvents.GetWorldCanvas();
+        eventBrokerComponent.Publish(this, getWorldCanvas);
+        worldCanvas = getWorldCanvas.WorldCanvas;
+
         healthBar = Instantiate(healthBarSliderPrefab, transform.position, Quaternion.identity, worldCanvas.transform);
         healthBar.gameObject.SetActive(false);
     }
@@ -35,6 +38,7 @@ public class EnemyHealthBarUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        Destroy(healthBar.gameObject);
+        if (healthBar)
+            Destroy(healthBar.gameObject);
     }
 }
