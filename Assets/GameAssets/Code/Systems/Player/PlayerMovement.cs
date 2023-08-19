@@ -11,6 +11,7 @@ public class PlayerMovement
 	private bool isDashAttacking;
 
 	private int dashCooldown;
+	private int maxDashCooldown;
 
 	private EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
 
@@ -20,6 +21,7 @@ public class PlayerMovement
 		isDashing = false;
 		isDashAttacking = false;
 		dashCooldown = 0;
+		maxDashCooldown = 5;
 
 		Subscribe();
 	}
@@ -41,10 +43,10 @@ public class PlayerMovement
 
 	private void HandlePlayerHitEnemy(BrokerEvent<PlayerAttackEvents.PlayerHitEnemy> inEvent)
 	{
-		dashCooldown = dashCooldown - 1;
-		if (dashCooldown < 0)
+		dashCooldown = dashCooldown + 1;
+		if (dashCooldown > maxDashCooldown)
 		{
-			dashCooldown = 0;
+			dashCooldown = maxDashCooldown;
 		}
 		eventBrokerComponent.Publish(this, new UIEvents.SetDash(dashCooldown));
 	}
@@ -61,8 +63,10 @@ public class PlayerMovement
 		if (isDashing) yield return null;
 
 		isDashing = true;
-		dashCooldown = Constants.Player.Attacks.DashCooldown;
-		eventBrokerComponent.Publish(this, new UIEvents.SetMaxDash(dashCooldown));
+		maxDashCooldown = Constants.Player.Attacks.DashCooldown;
+		dashCooldown = 0;
+		eventBrokerComponent.Publish(this, new UIEvents.SetDash(dashCooldown));
+		eventBrokerComponent.Publish(this, new UIEvents.SetMaxDash(maxDashCooldown));
 
 		Vector2 prevVelocity = rbody.velocity;
 
@@ -85,8 +89,10 @@ public class PlayerMovement
 		if (isDashAttacking) yield return null;
 
 		isDashAttacking = true;
-		dashCooldown = Constants.Player.Attacks.DashAttackCooldown;
-		eventBrokerComponent.Publish(this, new UIEvents.SetMaxDash(dashCooldown));
+		maxDashCooldown = Constants.Player.Attacks.DashAttackCooldown;
+		dashCooldown = 0;
+		eventBrokerComponent.Publish(this, new UIEvents.SetDash(dashCooldown));
+		eventBrokerComponent.Publish(this, new UIEvents.SetMaxDash(maxDashCooldown));
 
 		Vector2 prevVelocity = rbody.velocity;
 
