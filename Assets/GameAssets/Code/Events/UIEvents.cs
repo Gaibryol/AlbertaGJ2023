@@ -21,6 +21,15 @@ public class UIEvents
         }
     }
 
+	public class SetMaxDash
+	{
+		public readonly int Value;
+		public SetMaxDash(int value)
+		{
+			Value = value;
+		}
+	}
+
     public class SetOrbs
     {
         public readonly int Value;

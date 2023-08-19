@@ -18,6 +18,7 @@ public class PlayerUI : MonoBehaviour
     {
         eventBrokerComponent.Subscribe<UIEvents.SetHealth>(SetHealthHandler);
         eventBrokerComponent.Subscribe<UIEvents.SetDash>(SetDashHandler);
+		eventBrokerComponent.Subscribe<UIEvents.SetMaxDash>(SetMaxDashHandler);
         eventBrokerComponent.Subscribe<UIEvents.SetOrbs>(SetOrbsHandler);
         eventBrokerComponent.Subscribe<UIEvents.SetCombo>(SetComboHandler);
     }
@@ -26,11 +27,12 @@ public class PlayerUI : MonoBehaviour
     {
         eventBrokerComponent.Unsubscribe<UIEvents.SetHealth>(SetHealthHandler);
         eventBrokerComponent.Unsubscribe<UIEvents.SetDash>(SetDashHandler);
-        eventBrokerComponent.Unsubscribe<UIEvents.SetOrbs>(SetOrbsHandler);
+		eventBrokerComponent.Unsubscribe<UIEvents.SetMaxDash>(SetMaxDashHandler);
+		eventBrokerComponent.Unsubscribe<UIEvents.SetOrbs>(SetOrbsHandler);
         eventBrokerComponent.Unsubscribe<UIEvents.SetCombo>(SetComboHandler);
     }
 
-    private void SetComboHandler(BrokerEvent<UIEvents.SetCombo> inEvent)
+	private void SetComboHandler(BrokerEvent<UIEvents.SetCombo> inEvent)
     {
         // lazy way just disable everything first
         foreach (Image image in normalComboBoxes)
@@ -69,7 +71,12 @@ public class PlayerUI : MonoBehaviour
         dashBar.value = inEvent.Payload.Value;
     }
 
-    private void SetHealthHandler(BrokerEvent<UIEvents.SetHealth> inEvent)
+	private void SetMaxDashHandler(BrokerEvent<UIEvents.SetMaxDash> inEvent)
+	{
+		dashBar.maxValue = inEvent.Payload.Value;
+	}
+
+	private void SetHealthHandler(BrokerEvent<UIEvents.SetHealth> inEvent)
     {
         for (int i = 0; i < inEvent.Payload.Value; i++)
         {

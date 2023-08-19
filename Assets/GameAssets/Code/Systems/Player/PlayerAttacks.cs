@@ -76,11 +76,11 @@ public class PlayerAttacks : MonoBehaviour
 			if (hitAngle <= angle)
 			{
 				// Hit enemy
-				Debug.Log("hit");
 				IDamageable damageable = hit.gameObject.GetComponent<IDamageable>();
 				if (damageable != null)
 				{
-					damageable.TakeDamage(1);
+					damageable.TakeDamage(1, null);
+					eventBrokerComponent.Publish(this, new PlayerAttackEvents.PlayerHitEnemy());
 				}
 			}
 		}

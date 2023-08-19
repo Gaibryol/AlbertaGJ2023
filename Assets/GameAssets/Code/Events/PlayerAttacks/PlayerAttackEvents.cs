@@ -8,4 +8,9 @@ public class PlayerAttackEvents
 	{
 		public ResetPlayerAttackStage() { }
 	}
+
+	public class PlayerHitEnemy
+	{
+		public PlayerHitEnemy() { }
+	}
 }

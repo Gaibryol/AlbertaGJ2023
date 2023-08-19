@@ -22,7 +22,6 @@ public class PlayerController : MonoBehaviour
 	private Health health;
 
 	private int orbs;
-	private List<bool> combo = new List<bool>();
 
 	private EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
 

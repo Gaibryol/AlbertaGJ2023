@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,11 +10,45 @@ public class PlayerMovement
 	private bool isDashing;
 	private bool isDashAttacking;
 
+	private int dashCooldown;
+	private int maxDashCooldown;
+
+	private EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
+
 	public PlayerMovement(Rigidbody2D rigidbody)
 	{
 		rbody = rigidbody;
 		isDashing = false;
 		isDashAttacking = false;
+		dashCooldown = 0;
+		maxDashCooldown = 5;
+
+		Subscribe();
+	}
+
+	~PlayerMovement()
+	{
+		Unsubscribe();
+	}
+
+	private void Subscribe()
+	{
+		eventBrokerComponent.Subscribe<PlayerAttackEvents.PlayerHitEnemy>(HandlePlayerHitEnemy);
+	}
+
+	private void Unsubscribe()
+	{
+		eventBrokerComponent.Unsubscribe<PlayerAttackEvents.PlayerHitEnemy>(HandlePlayerHitEnemy);
+	}
+
+	private void HandlePlayerHitEnemy(BrokerEvent<PlayerAttackEvents.PlayerHitEnemy> inEvent)
+	{
+		dashCooldown = dashCooldown + 1;
+		if (dashCooldown > maxDashCooldown)
+		{
+			dashCooldown = maxDashCooldown;
+		}
+		eventBrokerComponent.Publish(this, new UIEvents.SetDash(dashCooldown));
 	}
 
 	public void HandleMovement(Vector2 inputAxis, float movespeed)
@@ -28,6 +63,10 @@ public class PlayerMovement
 		if (isDashing) yield return null;
 
 		isDashing = true;
+		maxDashCooldown = Constants.Player.Attacks.DashCooldown;
+		dashCooldown = 0;
+		eventBrokerComponent.Publish(this, new UIEvents.SetDash(dashCooldown));
+		eventBrokerComponent.Publish(this, new UIEvents.SetMaxDash(maxDashCooldown));
 
 		Vector2 prevVelocity = rbody.velocity;
 
@@ -50,6 +89,10 @@ public class PlayerMovement
 		if (isDashAttacking) yield return null;
 
 		isDashAttacking = true;
+		maxDashCooldown = Constants.Player.Attacks.DashAttackCooldown;
+		dashCooldown = 0;
+		eventBrokerComponent.Publish(this, new UIEvents.SetDash(dashCooldown));
+		eventBrokerComponent.Publish(this, new UIEvents.SetMaxDash(maxDashCooldown));
 
 		Vector2 prevVelocity = rbody.velocity;
 
@@ -63,6 +106,26 @@ public class PlayerMovement
 		yield return new WaitForSeconds(duration);
 
 		rbody.velocity = prevVelocity;
+
+		Vector3 distance = rbody.transform.position - playerPos;
+
+		int killedWithDash = 0;
+
+		RaycastHit2D[] hits = Physics2D.BoxCastAll(playerPos, new Vector2(1, 1), 0f, direction, distance.magnitude, 1 << LayerMask.NameToLayer(Constants.Enemy.Tag));
+		foreach (RaycastHit2D hit in hits)
+		{
+			IDamageable damageable = hit.transform.GetComponent<IDamageable>();
+			if (damageable != null)
+			{
+				damageable.TakeDamage(1, (obj) => killedWithDash += 1);
+			}
+		}
+
+		if (killedWithDash >= Constants.Player.Attacks.DashAttackResetCount)
+		{
+			// Reset dash cooldown
+			dashCooldown = 0;
+		}
 
 		isDashAttacking = false;
 	}
