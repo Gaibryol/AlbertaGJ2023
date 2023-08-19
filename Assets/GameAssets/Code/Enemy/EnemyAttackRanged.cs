@@ -22,6 +22,9 @@ public class EnemyAttackRanged : EnemyAttack
         // Implementation detail: Calculate position before or after delay
         Vector2 direction;
         InRange(out direction);
-        spawnedProjectile.GetComponent<Rigidbody2D>().AddForce(direction * projectileSpeed, ForceMode2D.Impulse);
+        if (direction != Vector2.zero)
+        {
+            spawnedProjectile.GetComponent<Rigidbody2D>().AddForce(direction * projectileSpeed, ForceMode2D.Impulse);
+        }
     }
 }

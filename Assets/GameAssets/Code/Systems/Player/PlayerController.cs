@@ -78,4 +78,12 @@ public class PlayerController : MonoBehaviour
 		dash.Disable();
 		interact.Disable();
 	}
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "AttackTrigger")
+		{
+			// Munis helth
+		}
+    }
 }

@@ -26,6 +26,7 @@ public class EnemyBase : MonoBehaviour
         movement.SetCanMove(!attack.InRange() && !attack.IsAttacking());
         Vector2 movementVelocity = movement.Velocity();
         SetMovementAnimationVariables(movementVelocity);
+        transform.localScale = new Vector3(Mathf.Sign(movementVelocity.x), 1, 1);
     }
 
     private void SetMovementAnimationVariables(Vector2 velocity)
