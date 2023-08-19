@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1890466946838800626, guid: 9f26afb096f305c46b2f59ff30d7e3ab, type: 3}
+      propertyPath: healthBarOffset.y
+      value: -0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 4132620694442846996, guid: 9f26afb096f305c46b2f59ff30d7e3ab, type: 3}
       propertyPath: m_Controller
       value: 
