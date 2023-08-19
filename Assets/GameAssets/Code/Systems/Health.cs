@@ -4,11 +4,14 @@ using UnityEngine;
 
 [System.Serializable]
 public class Health
-{
-    [field: SerializeField] public int value { get; set; }
+{   
+    private int startingHealth;
+    [field: SerializeField] public int Value { get { return _value; } set { _value = Mathf.Clamp(value, 0, startingHealth); } }
+    private int _value;
 
     public Health(int startingValue)
     {
-        value = startingValue;
+        startingHealth = startingValue;
+        Value = startingValue;
     }
 }

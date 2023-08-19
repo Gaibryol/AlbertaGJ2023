@@ -86,10 +86,25 @@ MonoBehaviour:
   attackSpeed: 5
   attackRange: 8
   attackDuration: 1
+  projectileSpawnDelay: 0.33
+--- !u!114 &5782874813944794169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4156866107910054244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8dbd2d708aa0a246a2e648e8c632ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnAttackPatternFinished:
+    m_PersistentCalls:
+      m_Calls: []
   projectile: {fileID: 6486335919375594732, guid: 1d5fd4d0f139f57489065101439d6133, type: 3}
   projectileSpawnPosition: {fileID: 4156866107910054299}
   projectileSpeed: 5
-  projectileSpawnDelay: 0.33
 --- !u!4 &4156866107910054299 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6617519457570150501, guid: 9f26afb096f305c46b2f59ff30d7e3ab, type: 3}

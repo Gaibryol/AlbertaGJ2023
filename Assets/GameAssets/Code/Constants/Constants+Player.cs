@@ -17,5 +17,11 @@ public partial class Constants
 			public const string IsDashAttacking = "IsDashAttacking";
 			public const string IsMoving = "IsMoving";
 		}
+
+		public class Cooldowns
+		{
+			public const int DashCooldown = 5;
+			public const int SuperDashCooldown = 8;
+		}
 	}
 }
