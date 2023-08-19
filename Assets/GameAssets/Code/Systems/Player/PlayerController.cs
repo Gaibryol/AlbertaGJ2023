@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
 	private void Awake()
 	{
 		playerControls = new PlayerControls();
-		playerMovement = new PlayerMovement(GetComponent<Rigidbody2D>());
+		playerMovement = new PlayerMovement(GetComponent<Rigidbody2D>(), GetComponentsInChildren<Collider2D>()[1]);
 		playerAnimations = GetComponent<PlayerAnimations>();
 		playerAttacks = GetComponent<PlayerAttacks>();
 	}
