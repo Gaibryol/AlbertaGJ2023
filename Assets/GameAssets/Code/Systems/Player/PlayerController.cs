@@ -94,7 +94,6 @@ public class PlayerController : MonoBehaviour
 		specialAttack.performed += SpecialAttack;
     
 		eventBrokerComponent.Subscribe<HealthEvents.IncreasePlayerHealth>(IncreasePlayerHealthHandler);
-		eventBrokerComponent.Subscribe<InteractionEvents.IncreaseOrbs>(IncreaseOrbsHandler);
 	}
 
 	private void OnDisable()
@@ -104,16 +103,9 @@ public class PlayerController : MonoBehaviour
 		dashAttack.Disable();
 		specialAttack.Disable();
 		eventBrokerComponent.Unsubscribe<HealthEvents.IncreasePlayerHealth>(IncreasePlayerHealthHandler);
-		eventBrokerComponent.Unsubscribe<InteractionEvents.IncreaseOrbs>(IncreaseOrbsHandler);
 	}
 
 	#region EventBroker Handlers
-	private void IncreaseOrbsHandler(BrokerEvent<InteractionEvents.IncreaseOrbs> inEvent)
-	{
-		orbs += 1;
-		eventBrokerComponent.Publish(this, new UIEvents.SetOrbs(orbs));
-	}
-	
 	private void IncreasePlayerHealthHandler(BrokerEvent<HealthEvents.IncreasePlayerHealth> inEvent)
 	{
 		health.Value += inEvent.Payload.Value;
