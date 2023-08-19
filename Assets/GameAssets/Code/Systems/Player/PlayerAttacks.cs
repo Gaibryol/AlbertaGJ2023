@@ -21,6 +21,8 @@ public class PlayerAttacks : MonoBehaviour
 	{
 		if (!canAttack) return;
 
+		eventBrokerComponent.Publish(this, new PlayerAttackEvents.PlayerAttackStateChange(true));
+
 		List<bool> combo = new List<bool>();
 
 		switch(attackStage)
@@ -53,6 +55,8 @@ public class PlayerAttacks : MonoBehaviour
 	public void HandleSpecialAttack(Transform player)
 	{
 		if (attackStage != 3 || !canAttack) return;
+
+		eventBrokerComponent.Publish(this, new PlayerAttackEvents.PlayerAttackStateChange(true));
 
 		CheckAttackHit(player, Constants.Player.Attacks.SpecialRange, Constants.Player.Attacks.SpecialAngle);
 		StartCoroutine(AttackRecoveryPeriod(Constants.Player.Attacks.SpecialRecoveryPeriod, 0));
@@ -91,6 +95,7 @@ public class PlayerAttacks : MonoBehaviour
 		canAttack = false;
 		yield return new WaitForSeconds(time);
 		canAttack = true;
+		eventBrokerComponent.Publish(this, new PlayerAttackEvents.PlayerAttackStateChange(false));
 
 		if (AttackTimerCoroutine != null)
 		{

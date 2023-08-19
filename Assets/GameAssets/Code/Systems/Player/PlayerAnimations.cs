@@ -13,6 +13,9 @@ public class PlayerAnimations : MonoBehaviour
 	
 	private int attackStage;
 
+	private int dashCooldown;
+	private int maxDashCooldown;
+
 	private EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
 
 	private void Start()
@@ -22,11 +25,24 @@ public class PlayerAnimations : MonoBehaviour
 		isDashing = false;
 		isDashAttacking = false;
 		attackStage = 1;
+
+		dashCooldown = 5;
+		maxDashCooldown = 5;
 	}
 
 	private void HandleResetPlayerAttackStage(BrokerEvent<PlayerAttackEvents.ResetPlayerAttackStage> inEvent)
 	{
 		attackStage = 1;
+	}
+
+	private void HandlePlayerHitEnemy(BrokerEvent<PlayerAttackEvents.PlayerHitEnemy> inEvent)
+	{
+		dashCooldown = dashCooldown + 1;
+		if (dashCooldown > maxDashCooldown)
+		{
+			dashCooldown = maxDashCooldown;
+		}
+		eventBrokerComponent.Publish(this, new UIEvents.SetDash(dashCooldown));
 	}
 
 	public void HandleMovementAnim(Vector2 inputAxis)
@@ -38,32 +54,38 @@ public class PlayerAnimations : MonoBehaviour
 
 	public IEnumerator HandleDashAnim(float duration)
 	{
-		if (isDashing) yield return null;
+		if (!isDashing && dashCooldown >= maxDashCooldown)
+		{
+			isDashing = true;
 
-		isDashing = true;
+			anim.SetBool(Constants.Player.Animations.IsDashing, true);
 
-		anim.SetBool(Constants.Player.Animations.IsDashing, true);
+			yield return new WaitForSeconds(duration);
 
-		yield return new WaitForSeconds(duration);
+			anim.SetBool(Constants.Player.Animations.IsDashing, false);
 
-		anim.SetBool(Constants.Player.Animations.IsDashing, false);
-
-		isDashing = false;
+			dashCooldown = 0;
+			maxDashCooldown = Constants.Player.Attacks.DashCooldown;
+			isDashing = false;
+		}
 	}
 
 	public IEnumerator HandleDashAttackAnim(float duration)
 	{
-		if (isDashAttacking) yield return null;
+		if (!isDashAttacking && dashCooldown >= maxDashCooldown)
+		{
+			isDashAttacking = true;
 
-		isDashAttacking = true;
+			anim.SetBool(Constants.Player.Animations.IsDashAttacking, true);
 
-		anim.SetBool(Constants.Player.Animations.IsDashAttacking, true);
+			yield return new WaitForSeconds(duration);
 
-		yield return new WaitForSeconds(duration);
+			anim.SetBool(Constants.Player.Animations.IsDashAttacking, false);
 
-		anim.SetBool(Constants.Player.Animations.IsDashAttacking, false);
-
-		isDashAttacking = false;
+			dashCooldown = 0;
+			maxDashCooldown = Constants.Player.Attacks.DashAttackCooldown;
+			isDashAttacking = false;
+		}
 	}
 
 	public IEnumerator HandleAttackAnim()
@@ -121,10 +143,12 @@ public class PlayerAnimations : MonoBehaviour
 	private void OnEnable()
 	{
 		eventBrokerComponent.Subscribe<PlayerAttackEvents.ResetPlayerAttackStage>(HandleResetPlayerAttackStage);
+		eventBrokerComponent.Subscribe<PlayerAttackEvents.PlayerHitEnemy>(HandlePlayerHitEnemy);
 	}
 
 	private void OnDisable()
 	{
 		eventBrokerComponent.Unsubscribe<PlayerAttackEvents.ResetPlayerAttackStage>(HandleResetPlayerAttackStage);
+		eventBrokerComponent.Unsubscribe<PlayerAttackEvents.PlayerHitEnemy>(HandlePlayerHitEnemy);
 	}
 }
