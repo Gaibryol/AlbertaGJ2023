@@ -27,7 +27,6 @@ public class PlayerAnimations : MonoBehaviour
 	private void HandleResetPlayerAttackStage(BrokerEvent<PlayerAttackEvents.ResetPlayerAttackStage> inEvent)
 	{
 		attackStage = 1;
-		Debug.Log("reset player attack stage");
 	}
 
 	public void HandleMovementAnim(Vector2 inputAxis)
