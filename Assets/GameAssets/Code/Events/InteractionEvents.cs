@@ -4,4 +4,7 @@ public class InteractionEvents
     {
 
     }
+
+    public class OpenDoor { 
+    }
 }
