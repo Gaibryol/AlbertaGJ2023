@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
 	private PlayerAnimations playerAnimations;
 	private Health health;
 
+	private int orbs;
+	private List<bool> combo = new List<bool>();
+
 	private EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
 
 	private void Dash(InputAction.CallbackContext context)
@@ -31,6 +34,14 @@ public class PlayerController : MonoBehaviour
 	private void Attack(InputAction.CallbackContext context)
 	{
 		Debug.Log("attack");
+
+		if (combo.Count >= 3) return; // Wait for Reset combo to trigger
+		combo.Add(false); // Change to True for Special attack, False for normal attack
+		eventBrokerComponent.Publish(this, new UIEvents.SetCombo(combo));
+		if (combo.Count >= 3)
+		{
+			StartCoroutine(ResetCombo(.5f)); // Should time before can start a new attack
+		}
 	}
 
 	private void DashAttack(InputAction.CallbackContext context)
@@ -78,6 +89,7 @@ public class PlayerController : MonoBehaviour
 		dashAttack.performed += DashAttack;
 
         eventBrokerComponent.Subscribe<HealthEvents.IncreasePlayerHealth>(IncreasePlayerHealthHandler);
+		eventBrokerComponent.Subscribe<InteractionEvents.IncreaseOrbs>(IncreaseOrbsHandler);
 	}
 
     private void OnDisable()
@@ -86,18 +98,36 @@ public class PlayerController : MonoBehaviour
 		dash.Disable();
 		dashAttack.Disable();
         eventBrokerComponent.Unsubscribe<HealthEvents.IncreasePlayerHealth>(IncreasePlayerHealthHandler);
+        eventBrokerComponent.Unsubscribe<InteractionEvents.IncreaseOrbs>(IncreaseOrbsHandler);
+    }
+
+    #region EventBroker Handlers
+    private void IncreaseOrbsHandler(BrokerEvent<InteractionEvents.IncreaseOrbs> inEvent)
+    {
+		orbs += 1;
+		eventBrokerComponent.Publish(this, new UIEvents.SetOrbs(orbs));
     }
 
     private void IncreasePlayerHealthHandler(BrokerEvent<HealthEvents.IncreasePlayerHealth> inEvent)
     {
-		health.value += inEvent.Payload.Value;
+		health.Value += inEvent.Payload.Value;
+		eventBrokerComponent.Publish(this, new UIEvents.SetHealth(health.Value));
     }
+    #endregion
+
+    private IEnumerator ResetCombo(float delay)
+	{
+		yield return new WaitForSeconds(delay);
+		combo.Clear();
+		eventBrokerComponent.Publish(this, new UIEvents.SetCombo(combo));
+	}
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "AttackTrigger")
 		{
-			health.value -= 1;
+			health.Value -= 1;
+			eventBrokerComponent.Publish(this, new UIEvents.SetHealth(health.Value));
 		}
 
 		IInteractable interactable = collision.GetComponent<IInteractable>();

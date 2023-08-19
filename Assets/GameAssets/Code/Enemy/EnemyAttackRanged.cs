@@ -1,30 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyAttackRanged : EnemyAttack
 {
-    [SerializeField] private GameObject projectile;
-    [SerializeField] private Transform projectileSpawnPosition;
-    [SerializeField] private float projectileSpeed;
-    [SerializeField] private float projectileSpawnDelay;
+    [SerializeField] private float projectileSpawnDelay;    // Anticipation
+
+
+    private List<EnemyAttackPattern> attackPatterns;
+
+    private void Start()
+    {
+        attackPatterns = GetComponents<EnemyAttackPattern>().ToList();
+    }
 
     public override void Attack()
     {
         base.Attack();
-        StartCoroutine(SpawnProjectile());
+
+        StartCoroutine(WaitForAnticipation());
     }
 
-    private IEnumerator SpawnProjectile()
+    private IEnumerator WaitForAnticipation()
     {
         yield return new WaitForSeconds(projectileSpawnDelay);
-        GameObject spawnedProjectile = Instantiate(projectile, projectileSpawnPosition.position, Quaternion.identity);
-        // Implementation detail: Calculate position before or after delay
-        Vector2 direction;
-        InRange(out direction);
-        if (direction != Vector2.zero)
+        foreach (EnemyAttackPattern pattern in attackPatterns)
         {
-            spawnedProjectile.GetComponent<Rigidbody2D>().AddForce(direction * projectileSpeed, ForceMode2D.Impulse);
+            pattern.StartAttackPattern();
         }
     }
 }

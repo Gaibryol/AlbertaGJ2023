@@ -1,0 +1,36 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemyAttackPatternRadial : EnemyAttackPattern
+{
+    [SerializeField] private int numberOfProjectiles;
+
+    [SerializeField] private GameObject projectile;
+    [SerializeField] private Transform projectileSpawnPosition;
+    [SerializeField] private float projectileSpeed;
+
+    private float spawnAngle;
+
+    protected override void Start()
+    {
+        base.Start();
+        spawnAngle = 2 * Mathf.PI / numberOfProjectiles;
+    }
+
+    public override void StartAttackPattern()
+    {
+        base.StartAttackPattern();
+        for (float angle = 0; angle < Mathf.PI * 2; angle += spawnAngle)
+        {
+            GameObject spawnedProjectile = Instantiate(projectile, projectileSpawnPosition.position, Quaternion.identity);
+            Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+            if (direction != Vector2.zero)
+            {
+                spawnedProjectile.GetComponent<Rigidbody2D>().AddForce(direction * projectileSpeed, ForceMode2D.Impulse);
+            }
+        }
+        OnAttackPatternFinished.Invoke();
+    }
+}
