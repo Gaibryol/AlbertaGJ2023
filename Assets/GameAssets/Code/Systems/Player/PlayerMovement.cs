@@ -64,6 +64,13 @@ public class PlayerMovement
 
 		rbody.velocity = prevVelocity;
 
+		Vector3 distance = rbody.transform.position - playerPos;
+
+		RaycastHit2D[] hits = Physics2D.BoxCastAll(playerPos, new Vector2(1, 1), 0f, direction, distance.magnitude, 1 << LayerMask.NameToLayer(Constants.Enemy.Tag));
+		foreach (RaycastHit2D hit in hits)
+		{
+			Debug.Log("hit: " + hit.collider.name);
+		}
 		isDashAttacking = false;
 	}
 }
