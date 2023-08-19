@@ -21,39 +21,45 @@ public class PlayerAttacks : MonoBehaviour
 	{
 		if (!canAttack) return;
 
+		List<bool> combo = new List<bool>();
+
 		switch(attackStage)
 		{
 			case 1:
-				Debug.Log("attack 1");
 				CheckAttackHit(player, Constants.Player.Attacks.A1Range, Constants.Player.Attacks.A1Angle);
 				StartCoroutine(AttackRecoveryPeriod(Constants.Player.Attacks.A1RecoveryPeriod, Constants.Player.Attacks.A1AttackWindow));
 				attackStage += 1;
+				combo = new List<bool>() { false };
 				break;
 
 			case 2:
-				Debug.Log("attack 2");
 				CheckAttackHit(player, Constants.Player.Attacks.A2Range, Constants.Player.Attacks.A2Angle);
 				StartCoroutine(AttackRecoveryPeriod(Constants.Player.Attacks.A2RecoveryPeriod, Constants.Player.Attacks.A2AttackWindow));
 				attackStage += 1;
+				combo = new List<bool>() { false, false };
 				break;
 
 			case 3:
-				Debug.Log("attack 3");
 				CheckAttackHit(player, Constants.Player.Attacks.A3Range, Constants.Player.Attacks.A3Angle);
 				StartCoroutine(AttackRecoveryPeriod(Constants.Player.Attacks.A3RecoveryPeriod, 0));
 				attackStage = 1;
+				combo = new List<bool>() { false, false, false };
 				break;
 		}
+
+		eventBrokerComponent.Publish(this, new UIEvents.SetCombo(combo));
 	}
 
 	public void HandleSpecialAttack(Transform player)
 	{
 		if (attackStage != 3 || !canAttack) return;
 
-		Debug.Log("special attack");
 		CheckAttackHit(player, Constants.Player.Attacks.SpecialRange, Constants.Player.Attacks.SpecialAngle);
 		StartCoroutine(AttackRecoveryPeriod(Constants.Player.Attacks.SpecialRecoveryPeriod, 0));
 		attackStage = 1;
+
+		List<bool> combo = new List<bool>() { false, false, true };
+		eventBrokerComponent.Publish(this, new UIEvents.SetCombo(combo));
 	}
 
 	private void CheckAttackHit(Transform player, float range, float angle)
@@ -90,12 +96,17 @@ public class PlayerAttacks : MonoBehaviour
 		{
 			AttackTimerCoroutine = StartCoroutine(AttackTimer(attackWindow));
 		}
+		else
+		{
+			eventBrokerComponent.Publish(this, new UIEvents.SetCombo(new List<bool>()));
+		}
 	}
 
 	public IEnumerator AttackTimer(float time)
 	{
 		yield return new WaitForSeconds(time);
 		eventBrokerComponent.Publish(this, new PlayerAttackEvents.ResetPlayerAttackStage());
+		eventBrokerComponent.Publish(this, new UIEvents.SetCombo(new List<bool>()));
 		attackStage = 1;
 	}
 }

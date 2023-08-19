@@ -36,15 +36,6 @@ public class PlayerController : MonoBehaviour
 	{
 		playerAttacks.HandleAttack(transform);
 		StartCoroutine(playerAnimations.HandleAttackAnim());
-		Debug.Log("attack");
-
-		if (combo.Count >= 3) return; // Wait for Reset combo to trigger
-		combo.Add(false); // Change to True for Special attack, False for normal attack
-		eventBrokerComponent.Publish(this, new UIEvents.SetCombo(combo));
-		if (combo.Count >= 3)
-		{
-			StartCoroutine(ResetCombo(.5f)); // Should time before can start a new attack
-		}
 	}
 
 	private void DashAttack(InputAction.CallbackContext context)
@@ -129,13 +120,6 @@ public class PlayerController : MonoBehaviour
 		eventBrokerComponent.Publish(this, new UIEvents.SetHealth(health.Value));
 	}
 	#endregion
-
-	private IEnumerator ResetCombo(float delay)
-	{
-		yield return new WaitForSeconds(delay);
-		combo.Clear();
-		eventBrokerComponent.Publish(this, new UIEvents.SetCombo(combo));
-	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
