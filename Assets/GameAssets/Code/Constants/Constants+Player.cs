@@ -42,5 +42,11 @@ public partial class Constants
 			public const float SpecialAngle = 60f;
 			public const float SpecialRecoveryPeriod = 1f;
 		}
+
+		public class Cooldowns
+		{
+			public const int DashCooldown = 5;
+			public const int SuperDashCooldown = 8;
+		}
 	}
 }
