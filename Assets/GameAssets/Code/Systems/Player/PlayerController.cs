@@ -9,15 +9,16 @@ public class PlayerController : MonoBehaviour
 	private PlayerControls playerControls;
 	private InputAction move;
 	private InputAction dash;
-	private InputAction interact;
 	private InputAction attack;
 	private InputAction dashAttack;
+	private InputAction specialAttack;
 
 	private float movespeed;
 	[SerializeField] private int startingHealth;
 
 	private PlayerMovement playerMovement;
 	private PlayerAnimations playerAnimations;
+	private PlayerAttacks playerAttacks;
 	private Health health;
 
 	private int orbs;
@@ -33,6 +34,8 @@ public class PlayerController : MonoBehaviour
 
 	private void Attack(InputAction.CallbackContext context)
 	{
+		playerAttacks.HandleAttack(transform);
+		StartCoroutine(playerAnimations.HandleAttackAnim());
 		Debug.Log("attack");
 
 		if (combo.Count >= 3) return; // Wait for Reset combo to trigger
@@ -50,26 +53,33 @@ public class PlayerController : MonoBehaviour
 		StartCoroutine(playerAnimations.HandleDashAttackAnim(Constants.Player.Movement.DashAttackDuration));
 	}
 
+	private void SpecialAttack(InputAction.CallbackContext context)
+	{
+		playerAttacks.HandleSpecialAttack(transform);
+		StartCoroutine(playerAnimations.HandleSpecialAttackAnim());
+	}
+
 	private void Awake()
 	{
 		playerControls = new PlayerControls();
 		playerMovement = new PlayerMovement(GetComponent<Rigidbody2D>());
-		playerAnimations = new PlayerAnimations(GetComponent<Animator>());
+		playerAnimations = GetComponent<PlayerAnimations>();
+		playerAttacks = GetComponent<PlayerAttacks>();
 	}
 
 	// Start is called before the first frame update
 	private void Start()
-    {
-		movespeed = Constants.Player.Movement.Movespeed;
+  {
+    movespeed = Constants.Player.Movement.Movespeed;
 		health = new Health(startingHealth);
-    }
+  }
 
-    // Update is called once per frame
-    private void Update()
-    {
-		playerMovement.HandleMovement(move.ReadValue<Vector2>(), movespeed);
+  // Update is called once per frame
+  private void Update()
+  {
+	  playerMovement.HandleMovement(move.ReadValue<Vector2>(), movespeed);
 		playerAnimations.HandleMovementAnim(move.ReadValue<Vector2>());
-    }
+  }
 
 	private void OnEnable()
 	{
@@ -88,52 +98,57 @@ public class PlayerController : MonoBehaviour
 		dashAttack.Enable();
 		dashAttack.performed += DashAttack;
 
-        eventBrokerComponent.Subscribe<HealthEvents.IncreasePlayerHealth>(IncreasePlayerHealthHandler);
+		specialAttack = playerControls.Player.SpecialAttack;
+		specialAttack.Enable();
+		specialAttack.performed += SpecialAttack;
+    
+    eventBrokerComponent.Subscribe<HealthEvents.IncreasePlayerHealth>(IncreasePlayerHealthHandler);
 		eventBrokerComponent.Subscribe<InteractionEvents.IncreaseOrbs>(IncreaseOrbsHandler);
 	}
 
-    private void OnDisable()
+  private void OnDisable()
 	{
 		move.Disable();
 		dash.Disable();
 		dashAttack.Disable();
-        eventBrokerComponent.Unsubscribe<HealthEvents.IncreasePlayerHealth>(IncreasePlayerHealthHandler);
-        eventBrokerComponent.Unsubscribe<InteractionEvents.IncreaseOrbs>(IncreaseOrbsHandler);
-    }
+		specialAttack.Disable();
+    eventBrokerComponent.Unsubscribe<HealthEvents.IncreasePlayerHealth>(IncreasePlayerHealthHandler);
+    eventBrokerComponent.Unsubscribe<InteractionEvents.IncreaseOrbs>(IncreaseOrbsHandler);
+  }
 
-    #region EventBroker Handlers
-    private void IncreaseOrbsHandler(BrokerEvent<InteractionEvents.IncreaseOrbs> inEvent)
-    {
-		orbs += 1;
+  #region EventBroker Handlers
+  private void IncreaseOrbsHandler(BrokerEvent<InteractionEvents.IncreaseOrbs> inEvent)
+  {
+	  orbs += 1;
 		eventBrokerComponent.Publish(this, new UIEvents.SetOrbs(orbs));
-    }
+  }
 
-    private void IncreasePlayerHealthHandler(BrokerEvent<HealthEvents.IncreasePlayerHealth> inEvent)
-    {
+  private void IncreasePlayerHealthHandler(BrokerEvent<HealthEvents.IncreasePlayerHealth> inEvent)
+  {
 		health.Value += inEvent.Payload.Value;
 		eventBrokerComponent.Publish(this, new UIEvents.SetHealth(health.Value));
-    }
-    #endregion
+  }
+  #endregion
 
-    private IEnumerator ResetCombo(float delay)
+  private IEnumerator ResetCombo(float delay)
 	{
 		yield return new WaitForSeconds(delay);
 		combo.Clear();
 		eventBrokerComponent.Publish(this, new UIEvents.SetCombo(combo));
 	}
 
-    private void OnTriggerEnter2D(Collider2D collision)
+  private void OnTriggerEnter2D(Collider2D collision)
+  {
+    if (collision.gameObject.tag == "AttackTrigger")
     {
-        if (collision.gameObject.tag == "AttackTrigger")
-		{
-			health.Value -= 1;
-			eventBrokerComponent.Publish(this, new UIEvents.SetHealth(health.Value));
-		}
+	    health.Value -= 1;
+		  eventBrokerComponent.Publish(this, new UIEvents.SetHealth(health.Value));
+    }
 
 		IInteractable interactable = collision.GetComponent<IInteractable>();
 		if (interactable != null)
 		{
-			interactable.Interact();
+		  interactable.Interact();
 		}
-    }
+  }
 }
