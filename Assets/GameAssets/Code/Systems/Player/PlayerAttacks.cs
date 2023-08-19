@@ -58,7 +58,7 @@ public class PlayerAttacks : MonoBehaviour
 
 	private void CheckAttackHit(Transform player, float range, float angle)
 	{
-		Collider2D[] hits = Physics2D.OverlapCircleAll(player.position, range, 1 << LayerMask.GetMask(Constants.Enemy.Tag));
+		Collider2D[] hits = Physics2D.OverlapCircleAll(player.position, range, 1 << 10);
 		foreach (Collider2D hit in hits)
 		{
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -71,6 +71,11 @@ public class PlayerAttacks : MonoBehaviour
 			{
 				// Hit enemy
 				Debug.Log("hit");
+				IDamageable damageable = hit.gameObject.GetComponent<IDamageable>();
+				if (damageable != null)
+				{
+					damageable.TakeDamage(1);
+				}
 			}
 		}
 	}
