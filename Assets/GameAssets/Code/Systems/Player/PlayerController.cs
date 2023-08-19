@@ -8,14 +8,15 @@ public class PlayerController : MonoBehaviour
 	private PlayerControls playerControls;
 	private InputAction move;
 	private InputAction dash;
-	private InputAction interact;
 	private InputAction attack;
 	private InputAction dashAttack;
+	private InputAction specialAttack;
 
 	private float movespeed;
 
 	private PlayerMovement playerMovement;
 	private PlayerAnimations playerAnimations;
+	private PlayerAttacks playerAttacks;
 
 	private void Dash(InputAction.CallbackContext context)
 	{
@@ -25,7 +26,8 @@ public class PlayerController : MonoBehaviour
 
 	private void Attack(InputAction.CallbackContext context)
 	{
-		Debug.Log("attack");
+		playerAttacks.HandleAttack(transform);
+		StartCoroutine(playerAnimations.HandleAttackAnim());
 	}
 
 	private void DashAttack(InputAction.CallbackContext context)
@@ -34,11 +36,18 @@ public class PlayerController : MonoBehaviour
 		StartCoroutine(playerAnimations.HandleDashAttackAnim(Constants.Player.Movement.DashAttackDuration));
 	}
 
+	private void SpecialAttack(InputAction.CallbackContext context)
+	{
+		playerAttacks.HandleSpecialAttack(transform);
+		StartCoroutine(playerAnimations.HandleSpecialAttackAnim());
+	}
+
 	private void Awake()
 	{
 		playerControls = new PlayerControls();
 		playerMovement = new PlayerMovement(GetComponent<Rigidbody2D>());
-		playerAnimations = new PlayerAnimations(GetComponent<Animator>());
+		playerAnimations = GetComponent<PlayerAnimations>();
+		playerAttacks = GetComponent<PlayerAttacks>();
 	}
 
 	// Start is called before the first frame update
@@ -70,6 +79,10 @@ public class PlayerController : MonoBehaviour
 		dashAttack = playerControls.Player.DashAttack;
 		dashAttack.Enable();
 		dashAttack.performed += DashAttack;
+
+		specialAttack = playerControls.Player.SpecialAttack;
+		specialAttack.Enable();
+		specialAttack.performed += SpecialAttack;
 	}
 
 	private void OnDisable()
@@ -77,6 +90,7 @@ public class PlayerController : MonoBehaviour
 		move.Disable();
 		dash.Disable();
 		dashAttack.Disable();
+		specialAttack.Disable();
 	}
 
     private void OnTriggerEnter2D(Collider2D collision)
