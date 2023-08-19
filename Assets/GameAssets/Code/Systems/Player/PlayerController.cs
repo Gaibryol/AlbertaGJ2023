@@ -69,17 +69,17 @@ public class PlayerController : MonoBehaviour
 
 	// Start is called before the first frame update
 	private void Start()
-  {
-    movespeed = Constants.Player.Movement.Movespeed;
+	{
+		movespeed = Constants.Player.Movement.Movespeed;
 		health = new Health(startingHealth);
-  }
+	}
 
-  // Update is called once per frame
-  private void Update()
-  {
-	  playerMovement.HandleMovement(move.ReadValue<Vector2>(), movespeed);
+	// Update is called once per frame
+	private void Update()
+	{ 
+		playerMovement.HandleMovement(move.ReadValue<Vector2>(), movespeed);
 		playerAnimations.HandleMovementAnim(move.ReadValue<Vector2>());
-  }
+	}
 
 	private void OnEnable()
 	{
@@ -102,53 +102,53 @@ public class PlayerController : MonoBehaviour
 		specialAttack.Enable();
 		specialAttack.performed += SpecialAttack;
     
-    eventBrokerComponent.Subscribe<HealthEvents.IncreasePlayerHealth>(IncreasePlayerHealthHandler);
+		eventBrokerComponent.Subscribe<HealthEvents.IncreasePlayerHealth>(IncreasePlayerHealthHandler);
 		eventBrokerComponent.Subscribe<InteractionEvents.IncreaseOrbs>(IncreaseOrbsHandler);
 	}
 
-  private void OnDisable()
+	private void OnDisable()
 	{
 		move.Disable();
 		dash.Disable();
 		dashAttack.Disable();
 		specialAttack.Disable();
-    eventBrokerComponent.Unsubscribe<HealthEvents.IncreasePlayerHealth>(IncreasePlayerHealthHandler);
-    eventBrokerComponent.Unsubscribe<InteractionEvents.IncreaseOrbs>(IncreaseOrbsHandler);
-  }
+		eventBrokerComponent.Unsubscribe<HealthEvents.IncreasePlayerHealth>(IncreasePlayerHealthHandler);
+		eventBrokerComponent.Unsubscribe<InteractionEvents.IncreaseOrbs>(IncreaseOrbsHandler);
+	}
 
-  #region EventBroker Handlers
-  private void IncreaseOrbsHandler(BrokerEvent<InteractionEvents.IncreaseOrbs> inEvent)
-  {
-	  orbs += 1;
+	#region EventBroker Handlers
+	private void IncreaseOrbsHandler(BrokerEvent<InteractionEvents.IncreaseOrbs> inEvent)
+	{
+		orbs += 1;
 		eventBrokerComponent.Publish(this, new UIEvents.SetOrbs(orbs));
-  }
-
-  private void IncreasePlayerHealthHandler(BrokerEvent<HealthEvents.IncreasePlayerHealth> inEvent)
-  {
+	}
+	
+	private void IncreasePlayerHealthHandler(BrokerEvent<HealthEvents.IncreasePlayerHealth> inEvent)
+	{
 		health.Value += inEvent.Payload.Value;
 		eventBrokerComponent.Publish(this, new UIEvents.SetHealth(health.Value));
-  }
-  #endregion
+	}
+	#endregion
 
-  private IEnumerator ResetCombo(float delay)
+	private IEnumerator ResetCombo(float delay)
 	{
 		yield return new WaitForSeconds(delay);
 		combo.Clear();
 		eventBrokerComponent.Publish(this, new UIEvents.SetCombo(combo));
 	}
 
-  private void OnTriggerEnter2D(Collider2D collision)
-  {
-    if (collision.gameObject.tag == "AttackTrigger")
-    {
-	    health.Value -= 1;
-		  eventBrokerComponent.Publish(this, new UIEvents.SetHealth(health.Value));
-    }
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (collision.gameObject.tag == "AttackTrigger")
+		{
+			health.Value -= 1;
+			eventBrokerComponent.Publish(this, new UIEvents.SetHealth(health.Value));
+		}
 
 		IInteractable interactable = collision.GetComponent<IInteractable>();
 		if (interactable != null)
 		{
-		  interactable.Interact();
+			interactable.Interact();
 		}
-  }
+	}
 }
