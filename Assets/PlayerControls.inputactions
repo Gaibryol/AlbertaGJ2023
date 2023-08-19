@@ -6,6 +6,15 @@
             "id": "4635d745-6be9-47e6-ae51-e9f1ed4876db",
             "actions": [
                 {
+                    "name": "Dash Attack",
+                    "type": "Button",
+                    "id": "babf5c62-6b86-4aa9-9f22-864d1074be4c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Move",
                     "type": "Value",
                     "id": "275a37c7-9244-459d-b417-9fc949eb60b2",
@@ -291,6 +300,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d5d718b0-a613-49b4-bccc-feb30ba8f51a",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

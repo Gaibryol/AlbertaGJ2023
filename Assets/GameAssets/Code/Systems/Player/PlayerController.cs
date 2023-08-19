@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
 	private InputAction dash;
 	private InputAction interact;
 	private InputAction attack;
+	private InputAction dashAttack;
 
 	private float movespeed;
 
@@ -22,16 +23,15 @@ public class PlayerController : MonoBehaviour
 		StartCoroutine(playerAnimations.HandleDashAnim(Constants.Player.Movement.DashDuration));
 	}
 
-	private void Interact(InputAction.CallbackContext context)
-	{
-		// Interact
-		Debug.Log("interact");
-	}
-
 	private void Attack(InputAction.CallbackContext context)
 	{
-		// Attack
 		Debug.Log("attack");
+	}
+
+	private void DashAttack(InputAction.CallbackContext context)
+	{
+		StartCoroutine(playerMovement.HandleDashAttack(transform.position, Constants.Player.Movement.DashAttackForce, Constants.Player.Movement.DashAttackDuration));
+		StartCoroutine(playerAnimations.HandleDashAttackAnim(Constants.Player.Movement.DashAttackDuration));
 	}
 
 	private void Awake()
@@ -63,19 +63,19 @@ public class PlayerController : MonoBehaviour
 		dash.Enable();
 		dash.performed += Dash;
 
-		interact = playerControls.Player.Interact;
-		interact.Enable();
-		interact.performed += Interact;
-
 		attack = playerControls.Player.Attack;
 		attack.Enable();
 		attack.performed += Attack;
+
+		dashAttack = playerControls.Player.DashAttack;
+		dashAttack.Enable();
+		dashAttack.performed += DashAttack;
 	}
 
 	private void OnDisable()
 	{
 		move.Disable();
 		dash.Disable();
-		interact.Disable();
+		dashAttack.Disable();
 	}
 }
