@@ -20,10 +20,15 @@ public class EnemyAttack : MonoBehaviour
 
     public virtual void Attack()
     {
+        ResetAttackTimer();
+    }
+
+    public void ResetAttackTimer()
+    {
         attackSpeedTimer = attackSpeed;
         attackDurationTimer = attackDuration;
-
     }
+
     public virtual bool IsAttacking()
     {
         return attackDurationTimer > 0;

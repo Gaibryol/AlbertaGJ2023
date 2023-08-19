@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 1916030195143513276}
   - component: {fileID: 6834288649839957252}
   - component: {fileID: 6179047929194494604}
+  - component: {fileID: 1890466946838800626}
   m_Layer: 10
   m_Name: EnemyBase
   m_TagString: Untagged
@@ -262,6 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5176c0f1a035b1547a56806770375c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingHealth: 5
 --- !u!114 &6834288649839957252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,8 +276,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74b35a0d73038e04da38d5326ab78ded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackTimer: 0
+  attackSpeed: 0
   attackRange: 0
+  attackDuration: 0
 --- !u!114 &6179047929194494604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,3 +291,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94eab3a50e3f37e4b9bc6a4bc134e1f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1890466946838800626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6617519457570150554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cf187d19b0ee0e4ba91c3241b6e53ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBarSliderPrefab: {fileID: 6772500720420627064, guid: 3af82896172ae2f439696238319f37b6, type: 3}
+  healthBarOffset: {x: 0, y: -0.5}

@@ -122,10 +122,15 @@ public class PlayerController : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (collision.gameObject.tag == "AttackTrigger")
+		if (collision.gameObject.tag == Constants.Enemy.AttackTriggerTag || collision.gameObject.tag == Constants.Enemy.ProjectileTag)
 		{
 			health.Value -= 1;
 			eventBrokerComponent.Publish(this, new UIEvents.SetHealth(health.Value));
+		}
+
+		if (collision.gameObject.tag == Constants.Enemy.ProjectileTag)
+		{
+			Destroy(collision.gameObject);
 		}
 
 		IInteractable interactable = collision.GetComponent<IInteractable>();
