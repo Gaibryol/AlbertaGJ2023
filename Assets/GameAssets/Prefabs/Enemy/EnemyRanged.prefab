@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 6c6052770b7bb964abe94e0897dd7047, type: 2}
+    - target: {fileID: 6617519457570150500, guid: 9f26afb096f305c46b2f59ff30d7e3ab, type: 3}
+      propertyPath: priority
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6617519457570150501, guid: 9f26afb096f305c46b2f59ff30d7e3ab, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -80,11 +84,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackSpeed: 5
-  attackRange: 4.25
+  attackRange: 8
   attackDuration: 1
   projectile: {fileID: 6486335919375594732, guid: 1d5fd4d0f139f57489065101439d6133, type: 3}
   projectileSpawnPosition: {fileID: 4156866107910054299}
   projectileSpeed: 5
+  projectileSpawnDelay: 0.33
 --- !u!4 &4156866107910054299 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6617519457570150501, guid: 9f26afb096f305c46b2f59ff30d7e3ab, type: 3}
