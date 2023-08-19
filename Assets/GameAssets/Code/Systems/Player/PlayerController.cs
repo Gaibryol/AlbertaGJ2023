@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,9 +14,13 @@ public class PlayerController : MonoBehaviour
 	private InputAction dashAttack;
 
 	private float movespeed;
+	[SerializeField] private int startingHealth;
 
 	private PlayerMovement playerMovement;
 	private PlayerAnimations playerAnimations;
+	private Health health;
+
+	private EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
 
 	private void Dash(InputAction.CallbackContext context)
 	{
@@ -45,6 +50,7 @@ public class PlayerController : MonoBehaviour
 	private void Start()
     {
 		movespeed = Constants.Player.Movement.Movespeed;
+		health = new Health(startingHealth);
     }
 
     // Update is called once per frame
@@ -70,20 +76,34 @@ public class PlayerController : MonoBehaviour
 		dashAttack = playerControls.Player.DashAttack;
 		dashAttack.Enable();
 		dashAttack.performed += DashAttack;
+
+        eventBrokerComponent.Subscribe<HealthEvents.IncreasePlayerHealth>(IncreasePlayerHealthHandler);
 	}
 
-	private void OnDisable()
+    private void OnDisable()
 	{
 		move.Disable();
 		dash.Disable();
 		dashAttack.Disable();
-	}
+        eventBrokerComponent.Unsubscribe<HealthEvents.IncreasePlayerHealth>(IncreasePlayerHealthHandler);
+    }
+
+    private void IncreasePlayerHealthHandler(BrokerEvent<HealthEvents.IncreasePlayerHealth> inEvent)
+    {
+		health.value += inEvent.Payload.Value;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "AttackTrigger")
 		{
-			// Munis helth
+			health.value -= 1;
+		}
+
+		IInteractable interactable = collision.GetComponent<IInteractable>();
+		if (interactable != null)
+		{
+			interactable.Interact();
 		}
     }
 }

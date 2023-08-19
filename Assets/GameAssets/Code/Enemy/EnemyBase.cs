@@ -8,12 +8,16 @@ public class EnemyBase : MonoBehaviour
     protected Animator animator;
     protected EnemyMovement movement;
     protected EnemyAttack attack;
+    protected Health health;
+
+    [SerializeField] private int startingHealth;
 
     protected virtual void Awake()
     {
         animator = GetComponent<Animator>();
         movement = GetComponent<EnemyMovement>();
         attack = GetComponent<EnemyAttack>();
+        health = new Health(startingHealth);
     }
 
     protected virtual void Update()
