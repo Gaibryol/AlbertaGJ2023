@@ -41,6 +41,10 @@ public partial class Constants
 			public const float SpecialRange = 1.5f;
 			public const float SpecialAngle = 60f;
 			public const float SpecialRecoveryPeriod = 1f;
+
+			public const int DashAttackResetCount = 3;
+			public const int DashCooldown = 5;
+			public const int DashAttackCooldown = 8;
 		}
 
 		public class Cooldowns

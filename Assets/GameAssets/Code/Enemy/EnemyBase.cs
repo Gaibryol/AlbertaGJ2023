@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyMovement), typeof(Animator))]
@@ -50,7 +51,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
         animator.SetTrigger(Constants.Enemy.Animations.Attack);
     }
 
-    public void TakeDamage(int value)
+    public void TakeDamage(int value, Action<Transform> isDeadCallback)
     {
         health.Value -= value;
         healthBarUI.SetHealth((float)health.Value / startingHealth);
@@ -61,6 +62,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
             // Destroy for now, later prob death animation
             Destroy(healthBarUI.gameObject);
             Destroy(gameObject);
+			isDeadCallback?.DynamicInvoke(transform);
         }
     }
 }
