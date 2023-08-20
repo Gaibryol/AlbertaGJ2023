@@ -29,6 +29,7 @@ public partial class Constants
 			public const string SlashNorm = "slashNorm";
 			public const string SlashJump = "slashJump";
 			public const string SlashUp = "slashUp";
+			public const string LevelDone = "levelDone";
 		}
 	}
 }

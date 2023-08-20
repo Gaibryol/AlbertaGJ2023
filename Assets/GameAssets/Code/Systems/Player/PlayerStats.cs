@@ -23,7 +23,7 @@ public static class PlayerStats
     #endregion
 
     #region Movement
-    public static float Movespeed = 7.5f;
+    public static float Movespeed = 4f;
     #endregion
 
     public static int MaxHealth = 5;

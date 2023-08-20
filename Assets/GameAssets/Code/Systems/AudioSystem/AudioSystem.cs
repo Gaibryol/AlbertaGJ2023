@@ -19,6 +19,7 @@ public class AudioSystem : MonoBehaviour
 	[SerializeField] private AudioClip slashJump;
 	[SerializeField] private AudioClip slashNorm;
 	[SerializeField] private AudioClip slashUp;
+	[SerializeField] private AudioClip levelDone;
 
 	private float musicVolume;
 	private float sfxVolume;
@@ -44,6 +45,7 @@ public class AudioSystem : MonoBehaviour
 		sfx.Add(Constants.Audio.SFX.SlashJump, slashJump);
 		sfx.Add(Constants.Audio.SFX.SlashNorm, slashNorm);
 		sfx.Add(Constants.Audio.SFX.SlashUp, slashUp);
+		sfx.Add(Constants.Audio.SFX.LevelDone, levelDone);
 	}
 
 	private void OnEnable()
