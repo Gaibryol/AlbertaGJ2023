@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyDummy : MonoBehaviour, IDamageable
 {
     private Animator animator;
-    private void Awake()
+    private void Start()
     {
         animator = GetComponent<Animator>();
     }
