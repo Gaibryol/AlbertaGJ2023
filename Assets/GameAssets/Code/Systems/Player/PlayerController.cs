@@ -59,7 +59,14 @@ public class PlayerController : MonoBehaviour
 		StartCoroutine(playerAnimations.HandleSpecialAttackAnim(inputDirection));
 	}
 
-	private void Awake()
+    private void Start()
+    {
+        movespeed = PlayerStats.Movespeed;
+        health = new Health(PlayerStats.MaxHealth);
+        eventBrokerComponent.Publish(this, new UIEvents.SetHealth(health.Value));
+    }
+
+    private void Awake()
 	{
 		playerControls = new PlayerControls();
 		playerMovement = new PlayerMovement(GetComponent<Rigidbody2D>(), GetComponentsInChildren<Collider2D>()[1]);
@@ -134,7 +141,7 @@ public class PlayerController : MonoBehaviour
 		this.enabled = false;
 	}
 
-	private void TakeDamage(int damage)
+	public void TakeDamage(int damage)
 	{
 		if (isInvulnerable || isDead) return;
         health.Value -= damage;
