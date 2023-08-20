@@ -56,10 +56,6 @@ public class GameModeAGJ : GameModeBase
         augment.Apply();
         possibleAugments.Remove(augment);
         augmentUI.gameObject.SetActive(false);
-
-        GameStateEvents.GetNextSceneName getNextSceneName = new GameStateEvents.GetNextSceneName();
-        eventBrokerComponent.Publish(this, getNextSceneName);
-        eventBrokerComponent.Publish(this, new GameModeEvents.ChangeScene(getNextSceneName.Name));
     }
 
     private void SetAugmentPanelVisiblityHandler(BrokerEvent<AugmentEvents.SetAugmentPanelVisibility> inEvent)

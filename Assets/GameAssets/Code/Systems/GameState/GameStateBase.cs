@@ -67,8 +67,6 @@ public class GameStateBase : MonoBehaviour
 
     private void OpenDoorHandler(BrokerEvent<InteractionEvents.OpenDoor> inEvent)
     {
-        if (numberEnemies != 0 /*|| numberOrbs != NumberRequiredOrbs*/) return;
-        Debug.Log("Door opened");
         eventBrokerComponent.Publish(this, new AugmentEvents.SetAugmentPanelVisibility(true));
     }
 

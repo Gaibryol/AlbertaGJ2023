@@ -14,16 +14,24 @@ public class WaveSystem : MonoBehaviour
 	[SerializeField] private List<int> numEnemiesPerWave;
 
 	[SerializeField] private GameObject projectile;
+	[SerializeField] private GameObject door;
+	[SerializeField] private GameObject blockade;
 
 	private List<GameObject> enemies;
+	private bool choosingAugment;
+
+	private bool waitingForPlayer;
 
 	// Start is called before the first frame update
 	private void Start()
 	{
 		currentWave = 1;
 		enemies = new List<GameObject>();
+		choosingAugment = false;
+		waitingForPlayer = true;
+		door.SetActive(false);
 
-		StartCoroutine(NextWave(WaveStats.TimeUntilNextWave));
+		StartCoroutine(NextWave(WaveStats.TimeUntilNextWave, true));
 	}
 
 	private void EnemyDeath(GameObject e)
@@ -33,14 +41,41 @@ public class WaveSystem : MonoBehaviour
 		if (enemies.Count == 0)
 		{
 			// Next wave
-			StartCoroutine(NextWave(WaveStats.TimeUntilNextWave));
+			StartCoroutine(NextWave(WaveStats.TimeUntilNextWave, false));
 		}
 	}
 
-	private IEnumerator NextWave(float timer)
+	private IEnumerator NextWave(float timer, bool firstWave)
 	{
+		if (firstWave)
+		{
+			while (waitingForPlayer)
+			{
+				yield return null;
+			}
+		}
+		else
+		{
+			door.SetActive(true);
+			eventBrokerComponent.Publish(this, new HealthEvents.IncreasePlayerHealth(PlayerStats.MaxHealth));
+
+			choosingAugment = true;
+			while (choosingAugment)
+			{
+				yield return null;
+			}
+		}
+
 		yield return new WaitForSeconds(timer);
+
 		SpawnWave();
+	}
+
+	private void HandleAugmentSelected(BrokerEvent<AugmentEvents.SelectAugment> inEvent)
+	{
+		choosingAugment = false;
+		door.SetActive(false);
+		eventBrokerComponent.Publish(this, new GameStateEvents.SetPlayerControllerState(true));
 	}
 
 	private void SpawnWave()
@@ -87,6 +122,25 @@ public class WaveSystem : MonoBehaviour
 			enemy.GetComponent<AIDestinationSetter>().target = GameObject.FindGameObjectWithTag(Constants.Player.Tag).transform;
 			enemy.GetComponent<EnemyBase>().onDeathCallback = EnemyDeath;
 			enemies.Add(enemy);
+		}
+	}
+
+	private void OnEnable()
+	{
+		eventBrokerComponent.Subscribe<AugmentEvents.SelectAugment>(HandleAugmentSelected);
+	}
+
+	private void OnDisable()
+	{
+		eventBrokerComponent.Unsubscribe<AugmentEvents.SelectAugment>(HandleAugmentSelected);
+	}
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (collision.tag == Constants.Player.Tag)
+		{
+			waitingForPlayer = false;
+			blockade.SetActive(true);
 		}
 	}
 }

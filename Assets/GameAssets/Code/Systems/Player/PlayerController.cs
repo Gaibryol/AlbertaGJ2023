@@ -68,14 +68,6 @@ public class PlayerController : MonoBehaviour
 		flash = GetComponent<FlashEffect>();
 	}
 
-	// Start is called before the first frame update
-	private void Start()
-	{
-		movespeed = PlayerStats.Movespeed;
-		health = new Health(PlayerStats.MaxHealth);
-        eventBrokerComponent.Publish(this, new UIEvents.SetHealth(health.Value));
-    }
-
     // Update is called once per frame
     private void Update()
 	{ 
@@ -103,7 +95,11 @@ public class PlayerController : MonoBehaviour
 		specialAttack = playerControls.Player.SpecialAttack;
 		specialAttack.Enable();
 		specialAttack.performed += SpecialAttack;
-    
+
+		movespeed = PlayerStats.Movespeed;
+		health = new Health(PlayerStats.MaxHealth);
+		eventBrokerComponent.Publish(this, new UIEvents.SetHealth(health.Value));
+
 		eventBrokerComponent.Subscribe<HealthEvents.IncreasePlayerHealth>(IncreasePlayerHealthHandler);
 	}
 
