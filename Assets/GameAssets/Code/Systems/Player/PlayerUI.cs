@@ -6,29 +6,30 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
-    [SerializeField] private List<Image> healthBoxes;
+    [SerializeField] private List<GameObject> healthBoxes;
     [SerializeField] private Slider dashBar;
-    [SerializeField] private List<Image> orbBoxes;
     [SerializeField] private List<Image> normalComboBoxes;
     [SerializeField] private Image specialComboBox;
+	[SerializeField] private GameObject heartBox;
+	[SerializeField] private Transform heartContainer;
 
     private EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
 
     private void OnEnable()
     {
         eventBrokerComponent.Subscribe<UIEvents.SetHealth>(SetHealthHandler);
-        eventBrokerComponent.Subscribe<UIEvents.SetDash>(SetDashHandler);
+		eventBrokerComponent.Subscribe<UIEvents.SetMaxHealth>(SetMaxHealthHandler);
+		eventBrokerComponent.Subscribe<UIEvents.SetDash>(SetDashHandler);
 		eventBrokerComponent.Subscribe<UIEvents.SetMaxDash>(SetMaxDashHandler);
-        eventBrokerComponent.Subscribe<UIEvents.SetOrbs>(SetOrbsHandler);
         eventBrokerComponent.Subscribe<UIEvents.SetCombo>(SetComboHandler);
     }
 
     private void OnDisable()
     {
         eventBrokerComponent.Unsubscribe<UIEvents.SetHealth>(SetHealthHandler);
-        eventBrokerComponent.Unsubscribe<UIEvents.SetDash>(SetDashHandler);
+		eventBrokerComponent.Unsubscribe<UIEvents.SetMaxHealth>(SetMaxHealthHandler);
+		eventBrokerComponent.Unsubscribe<UIEvents.SetDash>(SetDashHandler);
 		eventBrokerComponent.Unsubscribe<UIEvents.SetMaxDash>(SetMaxDashHandler);
-		eventBrokerComponent.Unsubscribe<UIEvents.SetOrbs>(SetOrbsHandler);
         eventBrokerComponent.Unsubscribe<UIEvents.SetCombo>(SetComboHandler);
     }
 
@@ -54,18 +55,6 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
-    private void SetOrbsHandler(BrokerEvent<UIEvents.SetOrbs> inEvent)
-    {
-        for (int i = 0; i < inEvent.Payload.Value; i++)
-        {
-            orbBoxes[i].enabled = true;
-        }
-        for (int i = inEvent.Payload.Value; i < orbBoxes.Count; i++)
-        {
-            orbBoxes[i].enabled = false;
-        }
-    }
-
     private void SetDashHandler(BrokerEvent<UIEvents.SetDash> inEvent)
     {
         dashBar.value = inEvent.Payload.Value;
@@ -80,11 +69,24 @@ public class PlayerUI : MonoBehaviour
     {
         for (int i = 0; i < inEvent.Payload.Value; i++)
         {
-            healthBoxes[i].enabled = true;
+			healthBoxes[i].transform.GetChild(0).gameObject.SetActive(true);
         }
         for (int i = inEvent.Payload.Value; i < healthBoxes.Count; i++)
         {
-            healthBoxes[i].enabled = false;
-        }
+			healthBoxes[i].transform.GetChild(0).gameObject.SetActive(false);
+		}
     }
+
+	private void SetMaxHealthHandler(BrokerEvent<UIEvents.SetMaxHealth> inEvent)
+	{
+		foreach(Transform child in heartContainer)
+		{
+			Destroy(child.gameObject);
+		}
+
+		for (int i = 0; i < inEvent.Payload.Value; i++)
+		{
+			Instantiate(heartBox, heartContainer);
+		}
+	}
 }

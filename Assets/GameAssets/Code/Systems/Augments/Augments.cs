@@ -20,6 +20,9 @@ public class Augments
             PlayerStats.MaxHealth += 2;
             PlayerStats.DashCooldown += 2;
             PlayerStats.DashAttackCooldown += 2;
+
+			EventBrokerComponent eventBroker = new EventBrokerComponent();
+			eventBroker.Publish(this, new UIEvents.SetMaxHealth(PlayerStats.MaxHealth));
         }
     }
 
@@ -59,7 +62,9 @@ public class Augments
             base.Apply();
             PlayerStats.DashAttackResetCount -= 1;
             PlayerStats.MaxHealth = Mathf.Clamp(PlayerStats.MaxHealth - 1, 1, PlayerStats.MaxHealth);
-        }
+			EventBrokerComponent eventBroker = new EventBrokerComponent();
+			eventBroker.Publish(this, new UIEvents.SetMaxHealth(PlayerStats.MaxHealth));
+		}
     }
 
     public class Augment_4 : AugmentBase
@@ -228,7 +233,10 @@ public class Augments
             PlayerStats.SpecialAttackDamage += 1;
             PlayerStats.Movespeed += 1;
             PlayerStats.MaxHealth = 1;
-        }
+
+			EventBrokerComponent eventBroker = new EventBrokerComponent();
+			eventBroker.Publish(this, new UIEvents.SetMaxHealth(PlayerStats.MaxHealth));
+		}
     }
 
 	public class Augment_13 : AugmentBase
