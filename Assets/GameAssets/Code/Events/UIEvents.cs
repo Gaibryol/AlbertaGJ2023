@@ -12,7 +12,17 @@ public class UIEvents
         }
     }
 
-    public class SetDash
+	public class SetMaxHealth
+	{
+		public readonly int Value;
+
+		public SetMaxHealth(int value)
+		{
+			Value = value;
+		}
+	}
+
+	public class SetDash
     {
         public readonly int Value;
         public SetDash(int value)
