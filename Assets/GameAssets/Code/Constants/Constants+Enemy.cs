@@ -5,6 +5,7 @@ public partial class Constants
 		public const string Tag = "Enemy";
 		public const string ProjectileTag = "Projectile";
 		public const string AttackTriggerTag = "AttackTrigger";
+		public const float SpawnOffset = 0.5f;
 
 		public class Animations
 		{

@@ -1062,6 +1062,9 @@ MonoBehaviour:
   mainMenuTrack: {fileID: 8300000, guid: e171e5e24a5f04741b940b60e2872aef, type: 3}
   bossTrack: {fileID: 8300000, guid: 87b7b068e76cd374b99c0fe3b8f2a3c6, type: 3}
   tutorialTrack: {fileID: 8300000, guid: c9e6e203621fbc94fbf25bb25a1f2a82, type: 3}
+  death: {fileID: 8300000, guid: 58d4c7c59e2c86d43addec8a1f7f4a04, type: 3}
+  dash: {fileID: 8300000, guid: 268ea9433eeebc94289af947aad35575, type: 3}
+  healthPack: {fileID: 8300000, guid: 6fdfc1e42d72b7e40932bdd2d00f3428, type: 3}
 --- !u!1 &929053976
 GameObject:
   m_ObjectHideFlags: 0

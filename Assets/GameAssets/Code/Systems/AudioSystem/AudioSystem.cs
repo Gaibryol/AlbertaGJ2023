@@ -13,7 +13,9 @@ public class AudioSystem : MonoBehaviour
 	[SerializeField] private AudioClip bossTrack;
 	[SerializeField] private AudioClip tutorialTrack;
 
-	//[SerializeField, Header("SFX")] private AudioClip 
+	[SerializeField, Header("SFX")] private AudioClip death;
+	[SerializeField] private AudioClip dash;
+	[SerializeField] private AudioClip healthPack;
 
 	private float musicVolume;
 	private float sfxVolume;
@@ -33,8 +35,9 @@ public class AudioSystem : MonoBehaviour
 		music.Add(Constants.Audio.Music.Boss, bossTrack);
 		music.Add(Constants.Audio.Music.Tutorial, tutorialTrack);
 
-		//sfx.Add(Constants.Audio.SFX.Click, click);
-
+		sfx.Add(Constants.Audio.SFX.Death, death);
+		sfx.Add(Constants.Audio.SFX.Dash, dash);
+		sfx.Add(Constants.Audio.SFX.HealthPack, healthPack);
 	}
 
 	private void OnEnable()

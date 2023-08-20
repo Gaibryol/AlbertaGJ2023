@@ -16,6 +16,8 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     protected EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
 
+	public Action<GameObject> onDeathCallback;
+
     protected virtual void Awake()
     {
         animator = GetComponent<Animator>();
@@ -83,6 +85,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
             Destroy(gameObject);
 			isDeadCallback?.DynamicInvoke(transform);
             eventBrokerComponent.Publish(this, new EnemyEvents.EnemyDeath());
+			onDeathCallback.DynamicInvoke(gameObject);
         }
     }
 }
