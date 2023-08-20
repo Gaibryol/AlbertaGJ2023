@@ -17,7 +17,11 @@ public class EnemyAttackPatternSingle : EnemyAttackPattern
         parent.InRange(out direction);
         if (direction != Vector2.zero)
         {
-            spawnedProjectile.GetComponent<Rigidbody2D>().AddForce(direction * projectileSpeed, ForceMode2D.Impulse);
+            spawnedProjectile.transform.right = direction;
+            spawnedProjectile.GetComponent<Rigidbody2D>().AddForce(spawnedProjectile.transform.right * projectileSpeed, ForceMode2D.Impulse);
+        } else
+        {
+            Destroy(spawnedProjectile);
         }
         OnAttackPatternFinished.Invoke();
     }
