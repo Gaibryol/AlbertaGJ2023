@@ -17,32 +17,34 @@ public class PlayerAttacks : MonoBehaviour
 		AttackTimerCoroutine = null;
 	}
 
-	public void HandleAttack(Transform player)
+	public Vector3 HandleAttack(Transform player)
 	{
-		if (!canAttack) return;
+
+        if (!canAttack) return Vector3.zero;
 
 		eventBrokerComponent.Publish(this, new PlayerAttackEvents.PlayerAttackStateChange(true));
 
 		List<bool> combo = new List<bool>();
+		Vector3 mouseDirection = Vector3.zero;
 
 		switch(attackStage)
 		{
 			case 1:
-				CheckAttackHit(player, Constants.Player.Attacks.A1Range, Constants.Player.Attacks.A1Angle, PlayerStats.NormalAttackDamageFirst);
+				CheckAttackHit(player, Constants.Player.Attacks.A1Range, Constants.Player.Attacks.A1Angle, PlayerStats.NormalAttackDamageFirst, out mouseDirection);
 				StartCoroutine(AttackRecoveryPeriod(PlayerStats.A1RecoveryPeriod, Constants.Player.Attacks.A1AttackWindow));
 				attackStage += 1;
 				combo = new List<bool>() { false };
 				break;
 
 			case 2:
-				CheckAttackHit(player, Constants.Player.Attacks.A2Range, Constants.Player.Attacks.A2Angle, PlayerStats.NormalAttackDamageSecond);
+				CheckAttackHit(player, Constants.Player.Attacks.A2Range, Constants.Player.Attacks.A2Angle, PlayerStats.NormalAttackDamageSecond, out mouseDirection);
 				StartCoroutine(AttackRecoveryPeriod(PlayerStats.A2RecoveryPeriod, Constants.Player.Attacks.A2AttackWindow));
 				attackStage += 1;
 				combo = new List<bool>() { false, false };
 				break;
 
 			case 3:
-				CheckAttackHit(player, Constants.Player.Attacks.A3Range, Constants.Player.Attacks.A3Angle, PlayerStats.NormalAttackDamageThird);
+				CheckAttackHit(player, Constants.Player.Attacks.A3Range, Constants.Player.Attacks.A3Angle, PlayerStats.NormalAttackDamageThird, out mouseDirection);
 				StartCoroutine(AttackRecoveryPeriod(PlayerStats.A3RecoveryPeriod, 0));
 				attackStage = 1;
 				combo = new List<bool>() { false, false, false };
@@ -50,15 +52,17 @@ public class PlayerAttacks : MonoBehaviour
 		}
 
 		eventBrokerComponent.Publish(this, new UIEvents.SetCombo(combo));
+		return mouseDirection;
 	}
 
-	public void HandleSpecialAttack(Transform player)
+	public Vector3 HandleSpecialAttack(Transform player)
 	{
-		if (attackStage != 3 || !canAttack) return;
+		if (attackStage != 3 || !canAttack) return Vector3.zero;
 
 		eventBrokerComponent.Publish(this, new PlayerAttackEvents.PlayerAttackStateChange(true));
 
-		int hitCount = CheckAttackHit(player, Constants.Player.Attacks.SpecialRange, Constants.Player.Attacks.SpecialAngle, PlayerStats.SpecialAttackDamage, true);
+		Vector3 mouseDirection;
+		int hitCount = CheckAttackHit(player, Constants.Player.Attacks.SpecialRange, Constants.Player.Attacks.SpecialAngle, PlayerStats.SpecialAttackDamage, out mouseDirection, true);
 		StartCoroutine(AttackRecoveryPeriod(Constants.Player.Attacks.SpecialRecoveryPeriod, 0));
 
 		if (hitCount >= 3)
@@ -70,18 +74,20 @@ public class PlayerAttacks : MonoBehaviour
 
 		List<bool> combo = new List<bool>() { false, false, true };
 		eventBrokerComponent.Publish(this, new UIEvents.SetCombo(combo));
+		return mouseDirection.normalized;
 	}
 
-	private int CheckAttackHit(Transform player, float range, float angle, int damage, bool special = false)
+	private int CheckAttackHit(Transform player, float range, float angle, int damage, out Vector3 direction, bool special = false)
 	{
 		int hitCount = 0;
+		Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
+		Vector3 playerToMousePos = new Vector3(mousePos.x - player.position.x, mousePos.y - player.position.y, 0).normalized;
+		
+		direction = playerToMousePos;
 		Collider2D[] hits = Physics2D.OverlapCircleAll(player.position, range, 1 << 10);
 		foreach (Collider2D hit in hits)
 		{
-			Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
-			Vector3 playerToMousePos = new Vector3(mousePos.x - player.position.x, mousePos.y - player.position.y, 0);
-
-			Vector3 playerToHit = new Vector3(hit.transform.position.x - player.position.x, hit.transform.position.y - player.position.y, 0f);
+			Vector3 playerToHit = new Vector3(hit.transform.position.x - player.position.x, hit.transform.position.y - player.position.y, 0f).normalized;
 			float hitAngle = Vector3.Angle(playerToMousePos, playerToHit);
 
 			if (hitAngle <= angle)
