@@ -40,10 +40,10 @@ public class GameModeBase : MonoBehaviour
 
     private void LoadMainMenu()
     {
-        sceneUtility.LoadScene(Constants.SceneNames.EnemyTest);
+        sceneUtility.LoadScene(Constants.SceneNames.MainMenu);
         StartCoroutine(sceneUtility.WaitForSceneLoad(() =>
         {
-            sceneUtility.SetActiveScene(Constants.SceneNames.EnemyTest);
+            sceneUtility.SetActiveScene(Constants.SceneNames.MainMenu);
         }));
     }
 }
