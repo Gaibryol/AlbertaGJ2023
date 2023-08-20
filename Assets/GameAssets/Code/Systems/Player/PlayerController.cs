@@ -14,14 +14,12 @@ public class PlayerController : MonoBehaviour
 	private InputAction specialAttack;
 
 	private float movespeed;
-	[SerializeField] private int startingHealth;
 
 	private PlayerMovement playerMovement;
 	private PlayerAnimations playerAnimations;
 	private PlayerAttacks playerAttacks;
 	private Health health;
 
-	private int orbs;
 
 	private EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
 
@@ -60,12 +58,13 @@ public class PlayerController : MonoBehaviour
 	// Start is called before the first frame update
 	private void Start()
 	{
-		movespeed = Constants.Player.Movement.Movespeed;
-		health = new Health(startingHealth);
-	}
+		movespeed = PlayerStats.Movespeed;
+		health = new Health(PlayerStats.MaxHealth);
+        eventBrokerComponent.Publish(this, new UIEvents.SetHealth(health.Value));
+    }
 
-	// Update is called once per frame
-	private void Update()
+    // Update is called once per frame
+    private void Update()
 	{ 
 		playerMovement.HandleMovement(move.ReadValue<Vector2>(), movespeed);
 		playerAnimations.HandleMovementAnim(move.ReadValue<Vector2>());
@@ -116,7 +115,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (collision.gameObject.tag == Constants.Enemy.AttackTriggerTag || collision.gameObject.tag == Constants.Enemy.ProjectileTag)
 		{
-			health.Value -= 1;
+			health.Value -= PlayerStats.DamageTakenFromHit;
 			eventBrokerComponent.Publish(this, new UIEvents.SetHealth(health.Value));
 		}
 

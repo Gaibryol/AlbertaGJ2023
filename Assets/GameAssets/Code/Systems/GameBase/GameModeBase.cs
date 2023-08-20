@@ -2,32 +2,29 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using static UnityEngine.Rendering.VolumeComponent;
 
-public class GameMode : MonoBehaviour
+public class GameModeBase : MonoBehaviour
 {
-    private EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
-
-    //private CutsceneSystem cutsceneSystem;
+    protected EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
 
     private SceneUtility sceneUtility;
-    private void Awake()
+
+    protected virtual void Awake()
     {
         sceneUtility = new SceneUtility();
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         LoadMainMenu();
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         eventBrokerComponent.Subscribe<GameModeEvents.ChangeScene>(ChangeSceneHandler);
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         eventBrokerComponent.Unsubscribe<GameModeEvents.ChangeScene>(ChangeSceneHandler);
     }

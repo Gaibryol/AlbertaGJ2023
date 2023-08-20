@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: healthBarOffset.y
       value: -0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 1916030195143513276, guid: 9f26afb096f305c46b2f59ff30d7e3ab, type: 3}
+      propertyPath: EnemyStats
+      value: 
+      objectReference: {fileID: 11400000, guid: 932f3a1d53815fa40b5221e66727084e, type: 2}
     - target: {fileID: 4132620694442846996, guid: 9f26afb096f305c46b2f59ff30d7e3ab, type: 3}
       propertyPath: m_Controller
       value: 

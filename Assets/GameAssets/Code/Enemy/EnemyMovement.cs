@@ -14,6 +14,11 @@ public class EnemyMovement : MonoBehaviour
         aiPath = GetComponent<AIPath>();
     }
 
+    public void SetMovementSpeed(float value)
+    {
+        aiPath.maxSpeed = value;
+    }
+
     public Vector2 Velocity()
     {
         return aiPath.velocity;

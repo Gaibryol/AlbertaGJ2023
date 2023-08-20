@@ -24,8 +24,8 @@ public class PlayerMovement
 		gapColl = gapCollider;
 		isDashing = false;
 		isDashAttacking = false;
-		dashCooldown = 5;
-		maxDashCooldown = 5;
+		dashCooldown = PlayerStats.DashCooldown;
+		maxDashCooldown = PlayerStats.DashAttackCooldown;
 
 		Subscribe();
 	}
@@ -54,7 +54,7 @@ public class PlayerMovement
 
 	private void HandlePlayerHitEnemy(BrokerEvent<PlayerAttackEvents.PlayerHitEnemy> inEvent)
 	{
-		dashCooldown = dashCooldown + 1;
+		dashCooldown = dashCooldown + PlayerStats.DashRegenPerHit + (inEvent.Payload.SpecialHit ? PlayerStats.RightClickDashReduceCooldownAmount : 0);
 		if (dashCooldown > maxDashCooldown)
 		{
 			dashCooldown = maxDashCooldown;
@@ -137,7 +137,7 @@ public class PlayerMovement
 
 			int killedWithDash = 0;
 
-			RaycastHit2D[] hits = Physics2D.BoxCastAll(playerPos, new Vector2(1, 1), 0f, direction, distance.magnitude, 1 << LayerMask.NameToLayer(Constants.Enemy.Tag));
+			RaycastHit2D[] hits = Physics2D.BoxCastAll(playerPos, PlayerStats.DashAttackHitBox, 0f, direction, distance.magnitude, 1 << LayerMask.NameToLayer(Constants.Enemy.Tag));
 			foreach (RaycastHit2D hit in hits)
 			{
 				IDamageable damageable = hit.transform.GetComponent<IDamageable>();
@@ -147,7 +147,12 @@ public class PlayerMovement
 				}
 			}
 
-			if (killedWithDash >= Constants.Player.Attacks.DashAttackResetCount)
+			if (hits.Length >= 3)
+			{
+				eventBrokerComponent.Publish(this, new HealthEvents.IncreasePlayerHealth(PlayerStats.DashAttackHealAmount));
+			}
+
+			if (killedWithDash >= PlayerStats.DashAttackResetCount && PlayerStats.DashCanReset)
 			{
 				// Reset dash cooldown
 				dashCooldown = maxDashCooldown;

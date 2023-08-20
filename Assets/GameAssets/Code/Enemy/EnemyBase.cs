@@ -6,13 +6,15 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyMovement), typeof(Animator))]
 public class EnemyBase : MonoBehaviour, IDamageable
 {
+    [SerializeField] protected EnemyStatsBase EnemyStats;
+
     protected Animator animator;
     protected EnemyMovement movement;
     protected EnemyAttack attack;
     protected Health health;
     protected EnemyHealthBarUI healthBarUI;
 
-    [SerializeField] private int startingHealth;
+    protected EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
 
     protected virtual void Awake()
     {
@@ -20,7 +22,14 @@ public class EnemyBase : MonoBehaviour, IDamageable
         movement = GetComponent<EnemyMovement>();
         attack = GetComponent<EnemyAttack>();
         healthBarUI = GetComponent<EnemyHealthBarUI>();
-        health = new Health(startingHealth);
+        health = new Health(EnemyStats.MaxHealth);
+    }
+
+    protected virtual void Start()
+    {
+        movement.SetMovementSpeed(EnemyStats.MoveSpeed);
+        attack.SetAttackRange(EnemyStats.AttackRange);
+        attack.SetAttackSpeed(EnemyStats.AttackSpeed);
     }
 
     protected virtual void Update()
@@ -54,7 +63,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
     public void TakeDamage(int value, Action<Transform> isDeadCallback)
     {
         health.Value -= value;
-        healthBarUI.SetHealth((float)health.Value / startingHealth);
+        healthBarUI.SetHealth((float)health.Value / EnemyStats.MaxHealth);
         animator.SetTrigger(Constants.Enemy.Animations.Hurt);
         attack.ResetAttackTimer();
         if (health.Value <= 0)
@@ -63,6 +72,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
             Destroy(healthBarUI.gameObject);
             Destroy(gameObject);
 			isDeadCallback?.DynamicInvoke(transform);
+            eventBrokerComponent.Publish(this, new EnemyEvents.EnemyDeath());
         }
     }
 }
