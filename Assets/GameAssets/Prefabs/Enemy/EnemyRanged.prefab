@@ -19,6 +19,34 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 6c6052770b7bb964abe94e0897dd7047, type: 2}
+    - target: {fileID: 4589170864354889731, guid: 9f26afb096f305c46b2f59ff30d7e3ab, type: 3}
+      propertyPath: m_Size.x
+      value: 0.97774357
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589170864354889731, guid: 9f26afb096f305c46b2f59ff30d7e3ab, type: 3}
+      propertyPath: m_Size.y
+      value: 1.1303592
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589170864354889731, guid: 9f26afb096f305c46b2f59ff30d7e3ab, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.011128217
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589170864354889731, guid: 9f26afb096f305c46b2f59ff30d7e3ab, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.09210259
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589170864354889731, guid: 9f26afb096f305c46b2f59ff30d7e3ab, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589170864354889731, guid: 9f26afb096f305c46b2f59ff30d7e3ab, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589170864354889731, guid: 9f26afb096f305c46b2f59ff30d7e3ab, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1.52
+      objectReference: {fileID: 0}
     - target: {fileID: 6617519457570150500, guid: 9f26afb096f305c46b2f59ff30d7e3ab, type: 3}
       propertyPath: priority
       value: 0
@@ -67,6 +95,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6617519457570150502, guid: 9f26afb096f305c46b2f59ff30d7e3ab, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -625478202, guid: 0988937f6eef1c34bab7e41dcd42aa33, type: 3}
     - target: {fileID: 6617519457570150502, guid: 9f26afb096f305c46b2f59ff30d7e3ab, type: 3}
       propertyPath: m_SortingOrder
       value: 1
