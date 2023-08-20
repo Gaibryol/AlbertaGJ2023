@@ -7,9 +7,9 @@ public class EnemyAttackPatternRadial : EnemyAttackPattern
 {
     [SerializeField] private int numberOfProjectiles;
 
-    [SerializeField] private GameObject projectile;
-    [SerializeField] private Transform projectileSpawnPosition;
-    [SerializeField] private float projectileSpeed;
+    [SerializeField] public GameObject projectile;
+    [SerializeField] public Transform projectileSpawnPosition;
+    [SerializeField] public float projectileSpeed;
 
     private float spawnAngle;
 
