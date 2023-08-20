@@ -40,10 +40,10 @@ public class GameModeBase : MonoBehaviour
 
     private void LoadMainMenu()
     {
-        sceneUtility.LoadScene(Constants.SceneNames.MainMenu);
+        sceneUtility.LoadScene(Constants.SceneNames.Level1);
         StartCoroutine(sceneUtility.WaitForSceneLoad(() =>
         {
-            sceneUtility.SetActiveScene(Constants.SceneNames.MainMenu);
+            sceneUtility.SetActiveScene(Constants.SceneNames.Level1);
         }));
     }
 }

@@ -8537,7 +8537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <WorldCanvas>k__BackingField: {fileID: 540683000}
-  NextSceneName: 
+  NextSceneName: Level3
   NumberRequiredOrbs: 3
 --- !u!4 &1933697140
 Transform:
