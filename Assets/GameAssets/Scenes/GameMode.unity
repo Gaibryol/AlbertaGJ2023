@@ -1135,7 +1135,7 @@ MonoBehaviour:
   slashJump: {fileID: 8300000, guid: 3002caa5405aa5f49a9a1a1dcdd2d232, type: 3}
   slashNorm: {fileID: 8300000, guid: 47709e15a458895498c47ef85ee29006, type: 3}
   slashUp: {fileID: 8300000, guid: e5d948c680809304f98e8fc59cf1f7fe, type: 3}
-  levelDone: {fileID: 0}
+  levelDone: {fileID: 8300000, guid: c9402fae79de57848a63a568ec14c50a, type: 3}
 --- !u!1 &929053976
 GameObject:
   m_ObjectHideFlags: 0
