@@ -8,16 +8,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GameAssets/Scenes/GameMode.unity
     guid: d8c1fdc703344dc4fbeb41ee96156228
-  - enabled: 1
+  - enabled: 0
     path: Assets/GameAssets/Scenes/Level 1.unity
     guid: 3c8d5a9a6c048f64a9009a7b246754a7
-  - enabled: 1
+  - enabled: 0
     path: Assets/GameAssets/Scenes/Level 2.unity
     guid: ff9ec7b87c5fc56499f47a3d7c7ea278
-  - enabled: 1
+  - enabled: 0
     path: Assets/GameAssets/Scenes/Level 3.unity
     guid: c4b0c495458ee7a4aaf3720345fd48e7
-  - enabled: 1
+  - enabled: 0
     path: Assets/GameAssets/Scenes/Boss.unity
     guid: e4e99299b6310354f9c91589414817ef
   - enabled: 1
