@@ -2,6 +2,8 @@ public partial class Constants
 {
 	public class Player
 	{
+		public const string Tag = "Player";
+
 		public class Movement
 		{
 			public const float Movespeed = 10f;
