@@ -17,6 +17,8 @@ public class WaveSystem : MonoBehaviour
 	[SerializeField] private GameObject door;
 	[SerializeField] private GameObject blockade;
 
+	[SerializeField] private GameObject newCam;
+
 	private List<GameObject> enemies;
 	private bool choosingAugment;
 
@@ -56,13 +58,17 @@ public class WaveSystem : MonoBehaviour
 		}
 		else
 		{
-			door.SetActive(true);
-			eventBrokerComponent.Publish(this, new HealthEvents.IncreasePlayerHealth(PlayerStats.MaxHealth));
-
-			choosingAugment = true;
-			while (choosingAugment)
+			eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.LevelDone));
+			if (currentWave % 3 == 0)
 			{
-				yield return null;
+				door.SetActive(true);
+				eventBrokerComponent.Publish(this, new HealthEvents.IncreasePlayerHealth(PlayerStats.MaxHealth));
+
+				choosingAugment = true;
+				while (choosingAugment)
+				{
+					yield return null;
+				}
 			}
 		}
 
@@ -123,6 +129,8 @@ public class WaveSystem : MonoBehaviour
 			enemy.GetComponent<EnemyBase>().onDeathCallback = EnemyDeath;
 			enemies.Add(enemy);
 		}
+
+		currentWave += 1;
 	}
 
 	private void OnEnable()
@@ -141,6 +149,7 @@ public class WaveSystem : MonoBehaviour
 		{
 			waitingForPlayer = false;
 			blockade.SetActive(true);
+			newCam.SetActive(true);
 		}
 	}
 }
