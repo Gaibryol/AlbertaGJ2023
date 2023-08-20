@@ -17,6 +17,8 @@ public class WaveSystem : MonoBehaviour
 	[SerializeField] private GameObject door;
 	[SerializeField] private GameObject blockade;
 
+	[SerializeField] private GameObject newCam;
+
 	private List<GameObject> enemies;
 	private bool choosingAugment;
 
@@ -141,6 +143,7 @@ public class WaveSystem : MonoBehaviour
 		{
 			waitingForPlayer = false;
 			blockade.SetActive(true);
+			newCam.SetActive(true);
 		}
 	}
 }
