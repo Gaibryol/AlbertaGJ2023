@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EnemyMeleeAttackAnticipation
+  m_Name: P-EnemyMeleeHurt
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,11 +20,13 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 413830576, guid: 6d7b441909c641c46b2121d41026c79d, type: 3}
+      value: {fileID: 1573689598, guid: cfca87c24bea8dc42a3a4ace6e8980fc, type: 3}
     - time: 0.083333336
-      value: {fileID: -312109608, guid: 6d7b441909c641c46b2121d41026c79d, type: 3}
+      value: {fileID: -1681223296, guid: cfca87c24bea8dc42a3a4ace6e8980fc, type: 3}
     - time: 0.16666667
-      value: {fileID: 1773582146, guid: 6d7b441909c641c46b2121d41026c79d, type: 3}
+      value: {fileID: 538549253, guid: cfca87c24bea8dc42a3a4ace6e8980fc, type: 3}
+    - time: 0.25
+      value: {fileID: 2031886832, guid: cfca87c24bea8dc42a3a4ace6e8980fc, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -44,15 +46,16 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 413830576, guid: 6d7b441909c641c46b2121d41026c79d, type: 3}
-    - {fileID: -312109608, guid: 6d7b441909c641c46b2121d41026c79d, type: 3}
-    - {fileID: 1773582146, guid: 6d7b441909c641c46b2121d41026c79d, type: 3}
+    - {fileID: 1573689598, guid: cfca87c24bea8dc42a3a4ace6e8980fc, type: 3}
+    - {fileID: -1681223296, guid: cfca87c24bea8dc42a3a4ace6e8980fc, type: 3}
+    - {fileID: 538549253, guid: cfca87c24bea8dc42a3a4ace6e8980fc, type: 3}
+    - {fileID: 2031886832, guid: cfca87c24bea8dc42a3a4ace6e8980fc, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.25
+    m_StopTime: 0.33333334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
