@@ -39,17 +39,24 @@ public class PlayerMovement
 	{
 		eventBrokerComponent.Subscribe<PlayerAttackEvents.PlayerHitEnemy>(HandlePlayerHitEnemy);
 		eventBrokerComponent.Subscribe<PlayerAttackEvents.PlayerAttackStateChange>(HandlePlayerAttackStateChange);
+		eventBrokerComponent.Subscribe<InteractionEvents.OpenDoor>(HandleOpenDoor);
 	}
 
 	private void Unsubscribe()
 	{
 		eventBrokerComponent.Unsubscribe<PlayerAttackEvents.PlayerHitEnemy>(HandlePlayerHitEnemy);
 		eventBrokerComponent.Unsubscribe<PlayerAttackEvents.PlayerAttackStateChange>(HandlePlayerAttackStateChange);
+		eventBrokerComponent.Unsubscribe<InteractionEvents.OpenDoor>(HandleOpenDoor);
 	}
 
 	private void HandlePlayerAttackStateChange(BrokerEvent<PlayerAttackEvents.PlayerAttackStateChange> inEvent)
 	{
 		isAttacking = inEvent.Payload.IsAttacking;
+	}
+
+	private void HandleOpenDoor(BrokerEvent<InteractionEvents.OpenDoor> inEvent)
+	{
+		rbody.velocity = Vector2.zero;
 	}
 
 	private void HandlePlayerHitEnemy(BrokerEvent<PlayerAttackEvents.PlayerHitEnemy> inEvent)

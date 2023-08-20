@@ -55,10 +55,10 @@ public class GameModeBase : MonoBehaviour
 
     private void LoadMainMenu()
     {
-        sceneUtility.LoadScene(Constants.SceneNames.Level3);
+        sceneUtility.LoadScene(Constants.SceneNames.GameScene);
         StartCoroutine(sceneUtility.WaitForSceneLoad(() =>
         {
-            sceneUtility.SetActiveScene(Constants.SceneNames.Level3);
+            sceneUtility.SetActiveScene(Constants.SceneNames.GameScene);
             Color endColor = backroundFadePanel.color;
             endColor.a = 0;
             StartCoroutine(Fade(backroundFadePanel.color, endColor, 1f));

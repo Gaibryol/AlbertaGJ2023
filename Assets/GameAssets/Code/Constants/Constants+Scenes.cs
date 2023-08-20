@@ -11,5 +11,6 @@ public partial class Constants
         public const string Level2 = "Level 2";
         public const string Level3 = "Level 3";
         public const string Boss = "Boss";
+		public const string GameScene = "GameScene";
     }
 }
