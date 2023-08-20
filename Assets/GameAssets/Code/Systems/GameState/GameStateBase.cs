@@ -9,6 +9,8 @@ public class GameStateBase : MonoBehaviour
     public string NextSceneName;
 
     [SerializeField] private int NumberRequiredOrbs;
+	[SerializeField] private string musicTrack;
+
     private int numberOrbs;
 
     private int numberEnemies;
@@ -19,6 +21,11 @@ public class GameStateBase : MonoBehaviour
     {
         numberEnemies = FindObjectsOfType<EnemyBase>().Length;
         playerController = FindObjectOfType<PlayerController>();
+
+		if (musicTrack != null && musicTrack != "")
+		{
+			eventBrokerComponent.Publish(this, new AudioEvents.PlayMusic(musicTrack, true));
+		}
     }
 
     private EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
