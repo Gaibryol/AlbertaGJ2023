@@ -1132,6 +1132,9 @@ MonoBehaviour:
   death: {fileID: 8300000, guid: 58d4c7c59e2c86d43addec8a1f7f4a04, type: 3}
   dash: {fileID: 8300000, guid: 268ea9433eeebc94289af947aad35575, type: 3}
   healthPack: {fileID: 8300000, guid: 6fdfc1e42d72b7e40932bdd2d00f3428, type: 3}
+  slashJump: {fileID: 8300000, guid: 3002caa5405aa5f49a9a1a1dcdd2d232, type: 3}
+  slashNorm: {fileID: 8300000, guid: 47709e15a458895498c47ef85ee29006, type: 3}
+  slashUp: {fileID: 8300000, guid: e5d948c680809304f98e8fc59cf1f7fe, type: 3}
 --- !u!1 &929053976
 GameObject:
   m_ObjectHideFlags: 0
