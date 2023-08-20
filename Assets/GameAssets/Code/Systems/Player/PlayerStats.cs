@@ -23,14 +23,14 @@ public static class PlayerStats
     #endregion
 
     #region Movement
-    public static float Movespeed = 10f;
+    public static float Movespeed = 7.5f;
     #endregion
 
-    public static int MaxHealth = 3;
+    public static int MaxHealth = 5;
 
-    public static float A3RecoveryPeriod = 0.75f;
-    public static float A2RecoveryPeriod = 0.5f;
-    public static float A1RecoveryPeriod = 0.50f;
+    public static float A3RecoveryPeriod = 0.5f;
+    public static float A2RecoveryPeriod = 0.25f;
+    public static float A1RecoveryPeriod = 0.25f;
     public static int SpecialAttackHealAmount = 0;
 
     public static int DashAttackResetCount = 3;

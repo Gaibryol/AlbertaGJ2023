@@ -78,12 +78,12 @@ public class PlayerAttacks : MonoBehaviour
 		Collider2D[] hits = Physics2D.OverlapCircleAll(player.position, range, 1 << 10);
 		foreach (Collider2D hit in hits)
 		{
-			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
 			Vector3 playerToMousePos = new Vector3(mousePos.x - player.position.x, mousePos.y - player.position.y, 0);
 
-			Vector3 playerToHit = hit.transform.position - player.position;
+			Vector3 playerToHit = new Vector3(hit.transform.position.x - player.position.x, hit.transform.position.y - player.position.y, 0f);
 			float hitAngle = Vector3.Angle(playerToMousePos, playerToHit);
-			
+
 			if (hitAngle <= angle)
 			{
 				// Hit enemy
