@@ -16,4 +16,9 @@ public partial class Constants
 
 		}
 	}
+
+	public class EnvironmentHazard
+	{
+		public const string Tag = "EnvironmentHazard";
+	}
 }

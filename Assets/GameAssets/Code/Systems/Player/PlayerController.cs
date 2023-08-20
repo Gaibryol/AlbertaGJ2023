@@ -150,4 +150,12 @@ public class PlayerController : MonoBehaviour
 			interactable.Interact();
 		}
 	}
+
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (collision.transform.tag == Constants.EnvironmentHazard.Tag)
+		{
+			health.Value -= collision.transform.GetComponent<EnvironmentHazard>().Damage;
+		}
+	}
 }
