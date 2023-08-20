@@ -38,4 +38,6 @@ public static class PlayerStats
 
     public static Vector2 DashAttackHitBox = new Vector2(1, 1);
 
+    public static float InvulnerabilityTime = 1f;
+
 }
