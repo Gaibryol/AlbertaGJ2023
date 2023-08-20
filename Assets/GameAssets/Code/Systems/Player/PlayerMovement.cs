@@ -25,7 +25,7 @@ public class PlayerMovement
 		isDashing = false;
 		isDashAttacking = false;
 		dashCooldown = PlayerStats.DashCooldown;
-		maxDashCooldown = PlayerStats.DashAttackCooldown;
+		maxDashCooldown = PlayerStats.DashCooldown;
 
 		Subscribe();
 	}
@@ -77,7 +77,7 @@ public class PlayerMovement
 		rbody.velocity = new Vector2(inputAxis.x * movespeed, inputAxis.y * movespeed);
 	}
 
-	public IEnumerator HandleDash(Vector3 playerPos, float force, float duration)
+	public IEnumerator HandleDash(Vector3 playerPos, float force, float duration, Vector2 direction)
 	{
 		if (!isDashing && dashCooldown >= maxDashCooldown)
 		{
@@ -91,11 +91,6 @@ public class PlayerMovement
 
 			Vector2 prevVelocity = rbody.velocity;
 
-			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			mousePosition.z = 0;
-
-			Vector2 direction = (mousePosition - playerPos).normalized;
-
 			rbody.velocity = direction * force;
 
 			yield return new WaitForSeconds(duration);
@@ -108,7 +103,7 @@ public class PlayerMovement
 		}
 	}
 
-	public IEnumerator HandleDashAttack(Vector3 playerPos, float force, float duration)
+	public IEnumerator HandleDashAttack(Vector3 playerPos, float force, float duration, Vector2 direction)
 	{
 		if (!isDashAttacking && dashCooldown >= maxDashCooldown)
 		{
@@ -121,11 +116,6 @@ public class PlayerMovement
 			gapColl.isTrigger = true;
 
 			Vector2 prevVelocity = rbody.velocity;
-
-			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			mousePosition.z = 0;
-
-			Vector2 direction = (mousePosition - playerPos).normalized;
 
 			rbody.velocity = direction * force;
 

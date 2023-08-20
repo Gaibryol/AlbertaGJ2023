@@ -17,11 +17,14 @@ public partial class Constants
 		{
 			public const string IsDashing = "IsDashing";
 			public const string IsDashAttacking = "IsDashAttacking";
+			public const string IsAttack = "IsAttack";
 			public const string IsMoving = "IsMoving";
 			public const string IsAttack1 = "IsAttack1";
 			public const string IsAttack2 = "IsAttack2";
 			public const string IsAttack3 = "IsAttack3";
 			public const string IsSpecialAttack = "IsSpecialAttack";
+			public const string Horizontal = "Horizontal";
+			public const string Vertical = "Vertical";
 		}
 
 		public class Attacks

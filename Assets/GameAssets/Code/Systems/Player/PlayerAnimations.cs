@@ -47,20 +47,27 @@ public class PlayerAnimations : MonoBehaviour
 
 	public void HandleMovementAnim(Vector2 inputAxis)
 	{
-		if (isDashing || isDashAttacking) return;
+		if (isDashing || isDashAttacking || !canAttack) return;
 
 		anim.SetBool(Constants.Player.Animations.IsMoving, inputAxis != Vector2.zero);
+		if (inputAxis != Vector2.zero)
+		{
+			anim.SetFloat(Constants.Player.Animations.Horizontal, inputAxis.x);
+			anim.SetFloat(Constants.Player.Animations.Vertical, inputAxis.y);
+		}
 	}
 
-	public IEnumerator HandleDashAnim(float duration)
+	public IEnumerator HandleDashAnim(float duration, Vector2 inputAxis)
 	{
 		if (!isDashing && dashCooldown >= maxDashCooldown)
 		{
 			isDashing = true;
 
 			anim.SetBool(Constants.Player.Animations.IsDashing, true);
+            anim.SetFloat(Constants.Player.Animations.Horizontal, inputAxis.x);
+            anim.SetFloat(Constants.Player.Animations.Vertical, inputAxis.y);
 
-			yield return new WaitForSeconds(duration);
+            yield return new WaitForSeconds(duration);
 
 			anim.SetBool(Constants.Player.Animations.IsDashing, false);
 
@@ -70,15 +77,17 @@ public class PlayerAnimations : MonoBehaviour
 		}
 	}
 
-	public IEnumerator HandleDashAttackAnim(float duration)
+	public IEnumerator HandleDashAttackAnim(float duration, Vector2 inputAxis)
 	{
 		if (!isDashAttacking && dashCooldown >= maxDashCooldown)
 		{
 			isDashAttacking = true;
 
 			anim.SetBool(Constants.Player.Animations.IsDashAttacking, true);
+            anim.SetFloat(Constants.Player.Animations.Horizontal, inputAxis.x);
+            anim.SetFloat(Constants.Player.Animations.Vertical, inputAxis.y);
 
-			yield return new WaitForSeconds(duration);
+            yield return new WaitForSeconds(duration);
 
 			anim.SetBool(Constants.Player.Animations.IsDashAttacking, false);
 
@@ -88,12 +97,17 @@ public class PlayerAnimations : MonoBehaviour
 		}
 	}
 
-	public IEnumerator HandleAttackAnim()
+	public IEnumerator HandleAttackAnim(Vector3 inputAxis)
 	{
 		if (canAttack)
 		{
 			float duration = 0f;
 			canAttack = false;
+
+            anim.SetFloat(Constants.Player.Animations.Horizontal, inputAxis.x);
+            anim.SetFloat(Constants.Player.Animations.Vertical, inputAxis.y);
+			anim.SetBool(Constants.Player.Animations.IsAttack, true);
+
 			switch (attackStage)
 			{
 				case 1:
@@ -115,28 +129,35 @@ public class PlayerAnimations : MonoBehaviour
 					break;
 			}
 
-			yield return new WaitForSeconds(duration);
+
+            yield return new WaitForSeconds(duration);
 
 			canAttack = true;
 			anim.SetBool(Constants.Player.Animations.IsAttack1, false);
 			anim.SetBool(Constants.Player.Animations.IsAttack2, false);
 			anim.SetBool(Constants.Player.Animations.IsAttack3, false);
-		}
-	}
+            anim.SetBool(Constants.Player.Animations.IsAttack, false);
+        }
+    }
 
-	public IEnumerator HandleSpecialAttackAnim()
+	public IEnumerator HandleSpecialAttackAnim(Vector3 inputAxis)
 	{
 		if (attackStage == 3)
 		{
-			anim.SetBool(Constants.Player.Animations.IsSpecialAttack, true);
+            anim.SetFloat(Constants.Player.Animations.Horizontal, inputAxis.x);
+            anim.SetFloat(Constants.Player.Animations.Vertical, inputAxis.y);
+            anim.SetBool(Constants.Player.Animations.IsAttack, true);
+            anim.SetBool(Constants.Player.Animations.IsSpecialAttack, true);
 			canAttack = false;
 
-			yield return new WaitForSeconds(Constants.Player.Attacks.SpecialRecoveryPeriod);
+
+            yield return new WaitForSeconds(Constants.Player.Attacks.SpecialRecoveryPeriod);
 
 			canAttack = true;
 			attackStage = 1;
 
-			anim.SetBool(Constants.Player.Animations.IsSpecialAttack, false);
+            anim.SetBool(Constants.Player.Animations.IsAttack, false);
+            anim.SetBool(Constants.Player.Animations.IsSpecialAttack, false);
 		}
 	}
 

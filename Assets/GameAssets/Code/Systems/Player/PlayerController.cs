@@ -27,26 +27,35 @@ public class PlayerController : MonoBehaviour
 
 	private void Dash(InputAction.CallbackContext context)
 	{
-		StartCoroutine(playerMovement.HandleDash(transform.position, Constants.Player.Movement.DashForce, Constants.Player.Movement.DashDuration));
-		StartCoroutine(playerAnimations.HandleDashAnim(Constants.Player.Movement.DashDuration));
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
+        mousePosition.z = 0;
+
+        Vector2 direction = (mousePosition - transform.position).normalized;
+
+        StartCoroutine(playerMovement.HandleDash(transform.position, Constants.Player.Movement.DashForce, Constants.Player.Movement.DashDuration, direction));
+		StartCoroutine(playerAnimations.HandleDashAnim(Constants.Player.Movement.DashDuration, direction));
 	}
 
 	private void Attack(InputAction.CallbackContext context)
 	{
-		playerAttacks.HandleAttack(transform);
-		StartCoroutine(playerAnimations.HandleAttackAnim());
+		Vector3 inputDirection = playerAttacks.HandleAttack(transform);
+		StartCoroutine(playerAnimations.HandleAttackAnim(inputDirection));
 	}
 
 	private void DashAttack(InputAction.CallbackContext context)
 	{
-		StartCoroutine(playerMovement.HandleDashAttack(transform.position, Constants.Player.Movement.DashAttackForce, Constants.Player.Movement.DashAttackDuration));
-		StartCoroutine(playerAnimations.HandleDashAttackAnim(Constants.Player.Movement.DashAttackDuration));
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
+        mousePosition.z = 0;
+
+        Vector2 direction = (mousePosition - transform.position).normalized;
+        StartCoroutine(playerMovement.HandleDashAttack(transform.position, Constants.Player.Movement.DashAttackForce, Constants.Player.Movement.DashAttackDuration, direction));
+		StartCoroutine(playerAnimations.HandleDashAttackAnim(Constants.Player.Movement.DashAttackDuration, direction));
 	}
 
 	private void SpecialAttack(InputAction.CallbackContext context)
 	{
-		playerAttacks.HandleSpecialAttack(transform);
-		StartCoroutine(playerAnimations.HandleSpecialAttackAnim());
+        Vector3 inputDirection = playerAttacks.HandleSpecialAttack(transform);
+		StartCoroutine(playerAnimations.HandleSpecialAttackAnim(inputDirection));
 	}
 
 	private void Awake()
