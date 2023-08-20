@@ -20,5 +20,12 @@ public partial class Constants
 			public const string Main = "main";
 			public const string Tutorial = "tutorial-loop";
 		}
+
+		public class SFX
+		{
+			public const string Death = "death";
+			public const string Dash = "dash";
+			public const string HealthPack = "health_pack";
+		}
 	}
 }

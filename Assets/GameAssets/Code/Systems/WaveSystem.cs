@@ -47,12 +47,14 @@ public class WaveSystem : MonoBehaviour
 	{
 		for (int i = 0; i < numEnemiesPerWave[currentWave - 1] + WaveStats.ExtraEnemyPerWave; i++)
 		{
-			int enemyChoice = Random.Range(0, basicEnemies.Count);
-			GameObject enemy = Instantiate(basicEnemies[enemyChoice]);
+			int enemyChoice = Random.Range(0, 9);
+			GameObject enemy = null;
 
-			if (enemyChoice == 0)
+			if (enemyChoice < WaveStats.SpawnChance)
 			{
-				// Ranged enemy
+				// Ranged Enemy
+				enemy = Instantiate(basicEnemies[0]);
+
 				if (WaveStats.ChanceForRadialRanged != 0)
 				{
 					int isRadial = Random.Range(0, 10);
@@ -72,6 +74,11 @@ public class WaveSystem : MonoBehaviour
 					}
 				}
 			}
+			else if (enemyChoice >= WaveStats.SpawnChance)
+			{
+				// Melee Enemy
+				enemy = Instantiate(basicEnemies[1]);
+			}
 
 			int spawnChoice = Random.Range(0, spawnPositions.Count);
 			Vector3 pos = new Vector3(spawnPositions[spawnChoice].position.x + Random.Range(-Constants.Enemy.SpawnOffset, Constants.Enemy.SpawnOffset), spawnPositions[spawnChoice].position.y + Random.Range(-Constants.Enemy.SpawnOffset, Constants.Enemy.SpawnOffset), 0);
@@ -90,4 +97,5 @@ public static class WaveStats
 	public static int ChanceForRadialRanged = 0;
 	public static float EnemyProjectileSpeed = 5f;
 	public static float TimeUntilNextWave = 5f;
+	public static int SpawnChance = 5;
 }

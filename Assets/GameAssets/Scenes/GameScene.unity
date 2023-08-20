@@ -3412,7 +3412,7 @@ MonoBehaviour:
   <WorldCanvas>k__BackingField: {fileID: 1410056278}
   NextSceneName: 
   NumberRequiredOrbs: 0
-  musicTrack: Boss
+  musicTrack: boss
 --- !u!4 &2114304700
 Transform:
   m_ObjectHideFlags: 0

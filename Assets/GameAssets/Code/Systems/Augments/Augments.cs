@@ -231,13 +231,68 @@ public class Augments
         }
     }
 
-    public static List<AugmentBase> All()
+	public class Augment_13 : AugmentBase
+	{
+		/*
+         Augment 13:
+            Dash cooldown decreased by 2
+			Ranged enemies have a 50% chance of spawning with a radial attack pattern
+         */
+		public override string Title { get => "Augment 13"; }
+		public override string Description { get => "Dash cooldown decreased by 2\r\nRanged enemies have a 50% chance of spawning with a radial attack pattern"; }
+		public override void Apply()
+		{
+			base.Apply();
+			WaveStats.ChanceForRadialRanged = 5;
+			PlayerStats.DashCooldown -= 2;
+		}
+	}
+
+	public class Augment_14 : AugmentBase
+	{
+		/*
+         Augment 14:
+			Enemy projectile speed reduced by 1
+			All waves spawn with 1 extra enemy
+         */
+		public override string Title { get => "Augment 14"; }
+		public override string Description { get => "Enemy projectile speed reduced by 1\r\nAll waves spawn with 1 extra enemy"; }
+		public override void Apply()
+		{
+			base.Apply();
+			WaveStats.ExtraEnemyPerWave -= 1;
+			WaveStats.EnemyProjectileSpeed -= 1;
+		}
+	}
+
+	public class Augment_15 : AugmentBase
+	{
+		/*
+		 Augment 15:
+			Chance to spawn melee enemy decreased by 20%
+			Chance to spawn ranged enemy increased by 20%
+			Movespeed increased by 1
+			Player takes 1 extra damage from all sources
+         */
+		public override string Title { get => "Augment 15"; }
+		public override string Description { get => "Chance to spawn melee enemy decreased by 20%\r\nChance to spawn ranged enemy increased by 20%\r\nMovespeed increased by 1\r\nPlayer takes 1 extra damage from all sources"; }
+		public override void Apply()
+		{
+			base.Apply();
+			WaveStats.SpawnChance += 2;
+			PlayerStats.Movespeed += 1;
+			PlayerStats.DamageTakenFromHit += 1;
+		}
+	}
+
+	public static List<AugmentBase> All()
     {
         List<AugmentBase> augments = new List<AugmentBase>() 
         { 
             new Augment_1(), new Augment_2(), new Augment_3(), new Augment_4(), 
             new Augment_5(), new Augment_6(), new Augment_7(), new Augment_8(), 
-            new Augment_9(), new Augment_10(), new Augment_11(), new Augment_12() 
+            new Augment_9(), new Augment_10(), new Augment_11(), new Augment_12(),
+			new Augment_13(), new Augment_14(), new Augment_15(),
         };
         return augments;
     }
