@@ -97,9 +97,13 @@ public class PlayerController : MonoBehaviour
 	private void OnDisable()
 	{
 		move.Disable();
+		attack.performed -= Attack;
 		dash.Disable();
+		dash.performed -= Dash;
 		dashAttack.Disable();
+		dashAttack.performed -= DashAttack;
 		specialAttack.Disable();
+		specialAttack.performed -= SpecialAttack;
 		eventBrokerComponent.Unsubscribe<HealthEvents.IncreasePlayerHealth>(IncreasePlayerHealthHandler);
 	}
 

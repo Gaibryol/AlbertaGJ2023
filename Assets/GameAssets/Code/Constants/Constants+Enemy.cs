@@ -14,6 +14,6 @@ public partial class Constants
 			public const string Attack = "Attack";
 			public const string Hurt = "Hurt";
 
-        }
+		}
 	}
 }

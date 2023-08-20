@@ -13,9 +13,12 @@ public class GameStateBase : MonoBehaviour
 
     private int numberEnemies;
 
+    private PlayerController playerController;
+
     private void Start()
     {
         numberEnemies = FindObjectsOfType<EnemyBase>().Length;
+        playerController = FindObjectOfType<PlayerController>();
     }
 
     private EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
@@ -26,6 +29,7 @@ public class GameStateBase : MonoBehaviour
         eventBrokerComponent.Subscribe<InteractionEvents.OpenDoor>(OpenDoorHandler);
         eventBrokerComponent.Subscribe<GameStateEvents.GetWorldCanvas>(GetWorldCanvasHandler);
         eventBrokerComponent.Subscribe<GameStateEvents.GetNextSceneName>(GetNextSceneNameHandler);
+        eventBrokerComponent.Subscribe<GameStateEvents.SetPlayerControllerState>(SetPlayerControllerStateHandler);
     }
 
 
@@ -36,7 +40,14 @@ public class GameStateBase : MonoBehaviour
         eventBrokerComponent.Unsubscribe<InteractionEvents.OpenDoor>(OpenDoorHandler);
         eventBrokerComponent.Unsubscribe<GameStateEvents.GetWorldCanvas>(GetWorldCanvasHandler);
         eventBrokerComponent.Unsubscribe<GameStateEvents.GetNextSceneName>(GetNextSceneNameHandler);
+        eventBrokerComponent.Unsubscribe<GameStateEvents.SetPlayerControllerState>(SetPlayerControllerStateHandler);
     }
+
+    private void SetPlayerControllerStateHandler(BrokerEvent<GameStateEvents.SetPlayerControllerState> inEvent)
+    {
+        playerController.enabled = inEvent.Payload.Active;
+    }
+
     private void GetNextSceneNameHandler(BrokerEvent<GameStateEvents.GetNextSceneName> inEvent)
     {
         inEvent.Payload.Name = NextSceneName;

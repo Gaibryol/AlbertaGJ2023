@@ -3051,7 +3051,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <WorldCanvas>k__BackingField: {fileID: 830030410}
-  NextSceneName: SampleScene
+  NextSceneName: EnemyTest
   NumberRequiredOrbs: 3
 --- !u!4 &1232486182
 Transform:

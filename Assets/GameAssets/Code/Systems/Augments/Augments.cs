@@ -58,7 +58,7 @@ public class Augments
         {
             base.Apply();
             PlayerStats.DashAttackResetCount -= 1;
-            PlayerStats.MaxHealth -= 1;
+            PlayerStats.MaxHealth = Mathf.Clamp(PlayerStats.MaxHealth - 1, 1, PlayerStats.MaxHealth);
         }
     }
 
