@@ -63,17 +63,17 @@ public class GameModeAGJ : GameModeBase
         augmentUI.gameObject.SetActive(inEvent.Payload.Visible);
         if (inEvent.Payload.Visible)
         {
-            AugmentBase augment1 = SelectRandomAugment();
-            AugmentBase augment2 = SelectRandomAugment();
+            AugmentBase augment1 = SelectRandomAugment(0, possibleAugments.Count/2);
+            AugmentBase augment2 = SelectRandomAugment(possibleAugments.Count/2, possibleAugments.Count);
             augmentUI.SetAugmentCards(augment1, augment2);
         }
         eventBrokerComponent.Publish(this, new GameStateEvents.SetPlayerControllerState(!inEvent.Payload.Visible));
     }
 
 
-    private AugmentBase SelectRandomAugment()
+    private AugmentBase SelectRandomAugment(int min, int max)
     {
-        return possibleAugments[Random.Range(0, possibleAugments.Count)];
+        return possibleAugments[Random.Range(min, max)];
     }
 
     protected override void PlayerDeathHandler(BrokerEvent<GameModeEvents.PlayerDeath> inEvent)
