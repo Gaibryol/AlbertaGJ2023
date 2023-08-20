@@ -93,6 +93,8 @@ public class PlayerMovement
 
 			rbody.velocity = direction * force;
 
+			eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Dash));
+
 			yield return new WaitForSeconds(duration);
 
 			rbody.velocity = prevVelocity;
@@ -118,6 +120,8 @@ public class PlayerMovement
 			Vector2 prevVelocity = rbody.velocity;
 
 			rbody.velocity = direction * force;
+
+			eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Dash));
 
 			yield return new WaitForSeconds(duration);
 

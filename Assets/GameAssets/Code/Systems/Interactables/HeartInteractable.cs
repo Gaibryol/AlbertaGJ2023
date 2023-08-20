@@ -7,8 +7,8 @@ public class HeartInteractable : MonoBehaviour, IInteractable
     private EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
     public void Interact()
     {
-        Debug.Log("Interacting with Heart");
         eventBrokerComponent.Publish(this, new HealthEvents.IncreasePlayerHealth(1));
+		eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.HealthPack));
         Destroy(gameObject);
     }
 }

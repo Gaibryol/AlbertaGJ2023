@@ -134,6 +134,7 @@ public class PlayerController : MonoBehaviour
 		isDead = true;
 		playerAnimations.Death(true);
 		eventBrokerComponent.Publish(this, new GameModeEvents.PlayerDeath());
+		eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Death));
 		this.enabled = false;
 	}
 
