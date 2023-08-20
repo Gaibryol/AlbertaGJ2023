@@ -32,6 +32,16 @@ public class EnemyBase : MonoBehaviour, IDamageable
         attack.SetAttackSpeed(EnemyStats.AttackSpeed);
     }
 
+    public virtual void EnableEnemy()
+    {
+        attack.enabled = true;
+    }
+
+    public virtual void DisableEnemy()
+    {
+        attack.enabled = false;
+    }
+
     protected virtual void Update()
     {
         if (attack.CanAttack())

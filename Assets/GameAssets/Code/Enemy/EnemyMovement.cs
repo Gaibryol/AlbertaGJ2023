@@ -2,16 +2,17 @@ using Pathfinding;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Pathfinding;
 
 [RequireComponent(typeof(AIPath))]
 public class EnemyMovement : MonoBehaviour
 {
     protected AIPath aiPath;
+    protected AIDestinationSetter destinationSetter;
 
     protected virtual void Awake()
     {
         aiPath = GetComponent<AIPath>();
+        destinationSetter = GetComponent<AIDestinationSetter>();
     }
 
     public void SetMovementSpeed(float value)
