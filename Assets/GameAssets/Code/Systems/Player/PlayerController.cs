@@ -19,7 +19,9 @@ public class PlayerController : MonoBehaviour
 	private PlayerAnimations playerAnimations;
 	private PlayerAttacks playerAttacks;
 	private Health health;
+	private FlashEffect flash;
 
+	private bool isInvulnerable = false;
 
 	private EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
 
@@ -53,6 +55,7 @@ public class PlayerController : MonoBehaviour
 		playerMovement = new PlayerMovement(GetComponent<Rigidbody2D>(), GetComponentsInChildren<Collider2D>()[1]);
 		playerAnimations = GetComponent<PlayerAnimations>();
 		playerAttacks = GetComponent<PlayerAttacks>();
+		flash = GetComponent<FlashEffect>();
 	}
 
 	// Start is called before the first frame update
@@ -107,6 +110,15 @@ public class PlayerController : MonoBehaviour
 		eventBrokerComponent.Unsubscribe<HealthEvents.IncreasePlayerHealth>(IncreasePlayerHealthHandler);
 	}
 
+	private IEnumerator StartInvulnerabilityTimer()
+	{
+		isInvulnerable = true;
+		flash.StartFlash();
+		yield return new WaitForSeconds(PlayerStats.InvulnerabilityTime);
+		isInvulnerable = false;
+		flash.StopFlash();
+	}
+
 	#region EventBroker Handlers
 	private void IncreasePlayerHealthHandler(BrokerEvent<HealthEvents.IncreasePlayerHealth> inEvent)
 	{
@@ -119,8 +131,12 @@ public class PlayerController : MonoBehaviour
 	{
 		if (collision.gameObject.tag == Constants.Enemy.AttackTriggerTag || collision.gameObject.tag == Constants.Enemy.ProjectileTag)
 		{
-			health.Value -= PlayerStats.DamageTakenFromHit;
-			eventBrokerComponent.Publish(this, new UIEvents.SetHealth(health.Value));
+			if (!isInvulnerable)
+			{
+				health.Value -= PlayerStats.DamageTakenFromHit;
+				eventBrokerComponent.Publish(this, new UIEvents.SetHealth(health.Value));
+				StartCoroutine(StartInvulnerabilityTimer());
+			}
 		}
 
 		if (collision.gameObject.tag == Constants.Enemy.ProjectileTag)
