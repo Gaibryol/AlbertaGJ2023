@@ -26,23 +26,19 @@ public partial class Constants
 		{
 			public const float A1Range = 1f;
 			public const float A1Angle = 60f;
-			public const float A1RecoveryPeriod = 0.50f;
 			public const float A1AttackWindow = 2f;
 
 			public const float A2Range = 1f;
 			public const float A2Angle = 60f;
-			public const float A2RecoveryPeriod = 0.5f;
 			public const float A2AttackWindow = 2f;
 
 			public const float A3Range = 1f;
 			public const float A3Angle = 60f;
-			public const float A3RecoveryPeriod = 0.75f;
 
 			public const float SpecialRange = 1.5f;
 			public const float SpecialAngle = 60f;
 			public const float SpecialRecoveryPeriod = 1f;
 
-			public const int DashAttackResetCount = 3;
 			public const int DashCooldown = 5;
 			public const int DashAttackCooldown = 8;
 		}

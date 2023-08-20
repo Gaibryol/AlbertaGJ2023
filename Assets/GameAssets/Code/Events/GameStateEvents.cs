@@ -6,4 +6,9 @@ public class GameStateEvents
     {
         public GameObject WorldCanvas;
     }
+
+    public class GetNextSceneName
+    {
+        public string Name;
+    }
 }

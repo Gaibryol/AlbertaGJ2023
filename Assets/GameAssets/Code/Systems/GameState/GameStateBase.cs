@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameStateBase : MonoBehaviour
 {
     [field: SerializeField] public GameObject WorldCanvas { get; private set; }
+    public string NextSceneName;
 
     [SerializeField] private int NumberRequiredOrbs;
     private int numberOrbs;
@@ -24,6 +25,7 @@ public class GameStateBase : MonoBehaviour
         eventBrokerComponent.Subscribe<EnemyEvents.EnemyDeath>(EnemyDeathHandler);
         eventBrokerComponent.Subscribe<InteractionEvents.OpenDoor>(OpenDoorHandler);
         eventBrokerComponent.Subscribe<GameStateEvents.GetWorldCanvas>(GetWorldCanvasHandler);
+        eventBrokerComponent.Subscribe<GameStateEvents.GetNextSceneName>(GetNextSceneNameHandler);
     }
 
 
@@ -33,6 +35,11 @@ public class GameStateBase : MonoBehaviour
         eventBrokerComponent.Unsubscribe<EnemyEvents.EnemyDeath>(EnemyDeathHandler);
         eventBrokerComponent.Unsubscribe<InteractionEvents.OpenDoor>(OpenDoorHandler);
         eventBrokerComponent.Unsubscribe<GameStateEvents.GetWorldCanvas>(GetWorldCanvasHandler);
+        eventBrokerComponent.Unsubscribe<GameStateEvents.GetNextSceneName>(GetNextSceneNameHandler);
+    }
+    private void GetNextSceneNameHandler(BrokerEvent<GameStateEvents.GetNextSceneName> inEvent)
+    {
+        inEvent.Payload.Name = NextSceneName;
     }
 
     private void GetWorldCanvasHandler(BrokerEvent<GameStateEvents.GetWorldCanvas> inEvent)
@@ -40,10 +47,11 @@ public class GameStateBase : MonoBehaviour
         inEvent.Payload.WorldCanvas = WorldCanvas;
     }
 
-    private void OpenDoorHandler(BrokerEvent<InteractionEvents.OpenDoor> @event)
+    private void OpenDoorHandler(BrokerEvent<InteractionEvents.OpenDoor> inEvent)
     {
-        if (numberEnemies != 0 || numberOrbs != NumberRequiredOrbs) return;
+        if (numberEnemies != 0 /*|| numberOrbs != NumberRequiredOrbs*/) return;
         Debug.Log("Door opened");
+        eventBrokerComponent.Publish(this, new AugmentEvents.SetAugmentPanelVisibility(true));
     }
 
     private void EnemyDeathHandler(BrokerEvent<EnemyEvents.EnemyDeath> inEvent)

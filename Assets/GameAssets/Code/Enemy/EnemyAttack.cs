@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
-    [SerializeField] protected float attackSpeed;
-    [SerializeField] protected float attackRange;
+    protected float attackSpeed;
+    protected float attackRange;
     [SerializeField] protected float attackDuration;
 
     private float attackSpeedTimer;
@@ -16,6 +16,16 @@ public class EnemyAttack : MonoBehaviour
         // Don't need to go below zero
         attackSpeedTimer -= attackSpeedTimer < 0 ? 0 : Time.deltaTime;
         attackDurationTimer -= attackDurationTimer < 0 ? 0 : Time.deltaTime;
+    }
+
+    public void SetAttackRange(float value)
+    {
+        attackRange = value;
+    }
+
+    public void SetAttackSpeed(float value)
+    {
+        attackSpeed = value;
     }
 
     public virtual void Attack()

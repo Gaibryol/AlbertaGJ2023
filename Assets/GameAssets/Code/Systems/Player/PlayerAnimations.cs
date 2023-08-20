@@ -98,19 +98,19 @@ public class PlayerAnimations : MonoBehaviour
 			{
 				case 1:
 					anim.SetBool(Constants.Player.Animations.IsAttack1, true);
-					duration = Constants.Player.Attacks.A1RecoveryPeriod;
+					duration = PlayerStats.A1RecoveryPeriod;
 					attackStage += 1;
 					break;
 
 				case 2:
 					anim.SetBool(Constants.Player.Animations.IsAttack2, true);
-					duration = Constants.Player.Attacks.A2RecoveryPeriod;
+					duration = PlayerStats.A2RecoveryPeriod;
 					attackStage += 1;
 					break;
 
 				case 3:
 					anim.SetBool(Constants.Player.Animations.IsAttack3, true);
-					duration = Constants.Player.Attacks.A3RecoveryPeriod;
+					duration = PlayerStats.A3RecoveryPeriod;
 					attackStage = 1;
 					break;
 			}

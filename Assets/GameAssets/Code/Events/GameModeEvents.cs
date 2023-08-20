@@ -9,4 +9,5 @@ public class GameModeEvents
             SceneName = sceneName;
         }
     }
+
 }

@@ -22,6 +22,10 @@ public class PlayerAttackEvents
 
 	public class PlayerHitEnemy
 	{
-		public PlayerHitEnemy() { }
+		public readonly bool SpecialHit;
+		public PlayerHitEnemy(bool specialHit = false) 
+		{
+			SpecialHit = specialHit;
+		}
 	}
 }
