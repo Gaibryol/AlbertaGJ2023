@@ -6,6 +6,8 @@ public partial class Constants
 {
     public class SceneNames
     {
+        public const string MainMenu = "MainMenu";
         public const string EnemyTest = "EnemyTest";
+        public const string Level1 = "LevelDesign";
     }
 }
