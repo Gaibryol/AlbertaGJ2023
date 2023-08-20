@@ -11,4 +11,11 @@ public class GameStateEvents
     {
         public string Name;
     }
+
+    public class SetPlayerControllerState
+    {
+        public readonly bool Active;
+
+        public SetPlayerControllerState(bool active) { Active = active; }
+    }
 }

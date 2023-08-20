@@ -790,6 +790,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   augmentUI: {fileID: 1737872016}
+  enemyRangedStats: {fileID: 11400000, guid: 932f3a1d53815fa40b5221e66727084e, type: 2}
+  enemyMeleeStats: {fileID: 11400000, guid: c9786c14ba55e114bb013da46fac25d1, type: 2}
 --- !u!1 &2113728281
 GameObject:
   m_ObjectHideFlags: 0

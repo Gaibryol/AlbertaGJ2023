@@ -8,7 +8,8 @@ public class GameModeAGJ : GameModeBase
 {
     List<AugmentBase> possibleAugments = new List<AugmentBase>();
     [SerializeField] private AugmentUI augmentUI;
-
+    [SerializeField] private EnemyRangedStats enemyRangedStats;
+    [SerializeField] private EnemyMeleeStats enemyMeleeStats;
     protected override void Start()
     {
         base.Start();
@@ -21,6 +22,8 @@ public class GameModeAGJ : GameModeBase
 
         eventBrokerComponent.Subscribe<AugmentEvents.SetAugmentPanelVisibility>(SetAugmentPanelVisiblityHandler);
         eventBrokerComponent.Subscribe<AugmentEvents.SelectAugment>(SelectAugmentHandler);
+        eventBrokerComponent.Subscribe<EnemyEvents.GetEnemyMeleeStats>(GetEnemyMeleeStatsHandler);
+        eventBrokerComponent.Subscribe<EnemyEvents.GetEnemyRangedStats>(GetEnemyRangedStatsHandler);
     }
 
     protected override void OnDisable()
@@ -28,6 +31,18 @@ public class GameModeAGJ : GameModeBase
         base.OnDisable();
         eventBrokerComponent.Unsubscribe<AugmentEvents.SetAugmentPanelVisibility>(SetAugmentPanelVisiblityHandler);
         eventBrokerComponent.Unsubscribe<AugmentEvents.SelectAugment>(SelectAugmentHandler);
+        eventBrokerComponent.Unsubscribe<EnemyEvents.GetEnemyMeleeStats>(GetEnemyMeleeStatsHandler);
+        eventBrokerComponent.Unsubscribe<EnemyEvents.GetEnemyRangedStats>(GetEnemyRangedStatsHandler);
+    }
+
+    private void GetEnemyRangedStatsHandler(BrokerEvent<EnemyEvents.GetEnemyRangedStats> inEvent)
+    {
+        inEvent.Payload.EnemyRangedStats = enemyRangedStats;
+    }
+
+    private void GetEnemyMeleeStatsHandler(BrokerEvent<EnemyEvents.GetEnemyMeleeStats> inEvent)
+    {
+        inEvent.Payload.EnemyMeleeStats = enemyMeleeStats;
     }
 
     private void SelectAugmentHandler(BrokerEvent<AugmentEvents.SelectAugment> inEvent)
@@ -52,6 +67,7 @@ public class GameModeAGJ : GameModeBase
             AugmentBase augment2 = SelectRandomAugment();
             augmentUI.SetAugmentCards(augment1, augment2);
         }
+        eventBrokerComponent.Publish(this, new GameStateEvents.SetPlayerControllerState(!inEvent.Payload.Visible));
     }
 
     private AugmentBase SelectRandomAugment()
