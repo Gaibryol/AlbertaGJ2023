@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EnemyAttackPatternSingle : EnemyAttackPattern
 {
-    [SerializeField] private GameObject projectile;
-    [SerializeField] private Transform projectileSpawnPosition;
-    [SerializeField] private float projectileSpeed;
+    [SerializeField] public GameObject projectile;
+    [SerializeField] public Transform projectileSpawnPosition;
+    [SerializeField] public float projectileSpeed;
 
     public override void StartAttackPattern()
     {
