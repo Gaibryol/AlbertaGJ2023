@@ -10,4 +10,9 @@ public class GameModeEvents
         }
     }
 
+
+    public class PlayerDeath
+    {
+
+    }
 }

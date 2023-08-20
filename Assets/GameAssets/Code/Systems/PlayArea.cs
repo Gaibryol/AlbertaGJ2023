@@ -13,7 +13,6 @@ public class PlayArea : MonoBehaviour
 
     public void Enable()
     {
-        Debug.Log("Enable play area " + gameObject.name);
         foreach (EnemyBase enemy in enemies)
         {
             if (enemy != null)
@@ -25,7 +24,6 @@ public class PlayArea : MonoBehaviour
 
     public void Disable()
     {
-        Debug.Log("Disable play area " + gameObject.name);
         foreach (EnemyBase enemy in enemies)
         {
             if (enemy != null)
