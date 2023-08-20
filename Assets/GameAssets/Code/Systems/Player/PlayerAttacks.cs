@@ -34,6 +34,7 @@ public class PlayerAttacks : MonoBehaviour
 				StartCoroutine(AttackRecoveryPeriod(PlayerStats.A1RecoveryPeriod, Constants.Player.Attacks.A1AttackWindow));
 				attackStage += 1;
 				combo = new List<bool>() { false };
+				eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.SlashNorm));
 				break;
 
 			case 2:
@@ -41,6 +42,7 @@ public class PlayerAttacks : MonoBehaviour
 				StartCoroutine(AttackRecoveryPeriod(PlayerStats.A2RecoveryPeriod, Constants.Player.Attacks.A2AttackWindow));
 				attackStage += 1;
 				combo = new List<bool>() { false, false };
+				eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.SlashUp));
 				break;
 
 			case 3:
@@ -48,6 +50,7 @@ public class PlayerAttacks : MonoBehaviour
 				StartCoroutine(AttackRecoveryPeriod(PlayerStats.A3RecoveryPeriod, 0));
 				attackStage = 1;
 				combo = new List<bool>() { false, false, false };
+				eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.SlashJump));
 				break;
 		}
 

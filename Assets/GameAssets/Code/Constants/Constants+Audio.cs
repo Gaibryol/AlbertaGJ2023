@@ -26,6 +26,9 @@ public partial class Constants
 			public const string Death = "death";
 			public const string Dash = "dash";
 			public const string HealthPack = "health_pack";
+			public const string SlashNorm = "slashNorm";
+			public const string SlashJump = "slashJump";
+			public const string SlashUp = "slashUp";
 		}
 	}
 }

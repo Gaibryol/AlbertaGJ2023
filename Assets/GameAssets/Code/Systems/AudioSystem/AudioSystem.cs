@@ -16,6 +16,9 @@ public class AudioSystem : MonoBehaviour
 	[SerializeField, Header("SFX")] private AudioClip death;
 	[SerializeField] private AudioClip dash;
 	[SerializeField] private AudioClip healthPack;
+	[SerializeField] private AudioClip slashJump;
+	[SerializeField] private AudioClip slashNorm;
+	[SerializeField] private AudioClip slashUp;
 
 	private float musicVolume;
 	private float sfxVolume;
@@ -38,6 +41,9 @@ public class AudioSystem : MonoBehaviour
 		sfx.Add(Constants.Audio.SFX.Death, death);
 		sfx.Add(Constants.Audio.SFX.Dash, dash);
 		sfx.Add(Constants.Audio.SFX.HealthPack, healthPack);
+		sfx.Add(Constants.Audio.SFX.SlashJump, slashJump);
+		sfx.Add(Constants.Audio.SFX.SlashNorm, slashNorm);
+		sfx.Add(Constants.Audio.SFX.SlashUp, slashUp);
 	}
 
 	private void OnEnable()
