@@ -12,7 +12,7 @@ public class Augments
             Dash and Dash Attack cooldown increased by 2
          */
 
-        public override string Title { get => "Augment 1"; }
+        public override string Title { get => "Modifier 1"; }
         public override string Description { get => "Player health increased by 2\r\nDash and Dash Attack cooldown increased by 2"; }
         public override void Apply()
         {
@@ -31,7 +31,7 @@ public class Augments
             Dash Attack cooldown increased by 2
 
          */
-        public override string Title { get => "Augment 2"; }
+        public override string Title { get => "Modifier 2"; }
         public override string Description { get => "Player normal attack speed increased by 0.15\r\nDash Attack cooldown increased by 2"; }
         public override void Apply()
         {
@@ -52,7 +52,7 @@ public class Augments
 
 
          */
-        public override string Title { get => "Augment 3"; }
+        public override string Title { get => "Modifier 3"; }
         public override string Description { get => "Number of enemies for Dash Attack reset decreased by 1\r\nPlayer max health decreased by 1"; }
         public override void Apply()
         {
@@ -70,7 +70,7 @@ public class Augments
             Ranged enemies attack speed increased by 1
             Ranged enemies attack range increased by 1
          */
-        public override string Title { get => "Augment 4"; }
+        public override string Title { get => "Modifier 4"; }
         public override string Description { get => "Player right click reduces Dash cooldown by 2\r\nRanged enemies attack speed increased by 1\r\nRanged enemies attack range increased by 1"; }
         public override void Apply()
         {
@@ -88,7 +88,7 @@ public class Augments
             Player normal attack damage increased by 1
             Player movespeed decreased by 1
          */
-        public override string Title { get => "Augment 5"; }
+        public override string Title { get => "Modifier 5"; }
         public override string Description { get => "Player normal attack damage increased by 1\r\nPlayer movespeed decreased by 1"; }
         public override void Apply()
         {
@@ -108,7 +108,7 @@ public class Augments
             Dash Attack hitbox width decreased by 0.15
             Dash cooldown increased by 1
          */
-        public override string Title { get => "Augment 6"; }
+        public override string Title { get => "Modifier 6"; }
         public override string Description { get => "Player movespeed increased by 2\r\nDash Attack hitbox width decreased by 0.15\r\nDash cooldown increased by 1"; }
         public override void Apply()
         {
@@ -126,7 +126,7 @@ public class Augments
             Third normal attack and special attack damage increased by 2
             Dash Attack no longer refreshes
          */
-        public override string Title { get => "Augment 7"; }
+        public override string Title { get => "Modifier 7"; }
         public override string Description { get => "Third normal attack and special attack damage increased by 2\r\nDash Attack no longer refreshes"; }
         public override void Apply()
         {
@@ -144,7 +144,7 @@ public class Augments
             Dash Attack damage increased by 1
             Third normal attack and special attack damage decreased by 1
          */
-        public override string Title { get => "Augment 8"; }
+        public override string Title { get => "Modifier 8"; }
         public override string Description { get => "Dash Attack damage increased by 1\r\nThird normal attack and special attack damage decreased by 1"; }
         public override void Apply()
         {
@@ -164,7 +164,7 @@ public class Augments
             Dash Attack no longer resets
 
          */
-        public override string Title { get => "Augment 9"; }
+        public override string Title { get => "Modifier 9"; }
         public override string Description { get => "Hitting 3 enemies with a Dash Attack heals 1 health\r\nDash Attack cooldown increased by 1\r\nDash Attack no longer resets"; }
         public override void Apply()
         {
@@ -182,7 +182,7 @@ public class Augments
             Hitting 3 enemies with a Special Attack heals 1 health
             All enemies damage increased by 1
          */
-        public override string Title { get => "Augment 10"; }
+        public override string Title { get => "Modifier 10"; }
         public override string Description { get => "Hitting 3 enemies with a Special Attack heals 1 health\r\nAll enemies damage increased by 1"; }
         public override void Apply()
         {
@@ -199,7 +199,7 @@ public class Augments
             Dash Attack hitbox width increased by 0.15
             Dash Attack cooldown increased by 2
          */
-        public override string Title { get => "Augment 11"; }
+        public override string Title { get => "Modifier 11"; }
         public override string Description { get => "Dash Attack hitbox width increased by 0.15\r\nDash Attack cooldown increased by 2"; }
         public override void Apply()
         {
@@ -217,7 +217,7 @@ public class Augments
             Movespeed increased by 1
             Player max health set to 1
          */
-        public override string Title { get => "Augment 12"; }
+        public override string Title { get => "Modifier 12"; }
         public override string Description { get => "All attack damage increased by 1\r\nMovespeed increased by 1\r\nPlayer max health set to 1"; }
         public override void Apply()
         {
@@ -238,7 +238,7 @@ public class Augments
             Dash cooldown decreased by 2
 			Ranged enemies have a 50% chance of spawning with a radial attack pattern
          */
-		public override string Title { get => "Augment 13"; }
+		public override string Title { get => "Modifier 13"; }
 		public override string Description { get => "Dash cooldown decreased by 2\r\nRanged enemies have a 50% chance of spawning with a radial attack pattern"; }
 		public override void Apply()
 		{
@@ -255,7 +255,7 @@ public class Augments
 			Enemy projectile speed reduced by 1
 			All waves spawn with 1 extra enemy
          */
-		public override string Title { get => "Augment 14"; }
+		public override string Title { get => "Modifier 14"; }
 		public override string Description { get => "Enemy projectile speed reduced by 1\r\nAll waves spawn with 1 extra enemy"; }
 		public override void Apply()
 		{
@@ -274,7 +274,7 @@ public class Augments
 			Movespeed increased by 1
 			Player takes 1 extra damage from all sources
          */
-		public override string Title { get => "Augment 15"; }
+		public override string Title { get => "Modifier 15"; }
 		public override string Description { get => "Chance to spawn melee enemy decreased by 20%\r\nChance to spawn ranged enemy increased by 20%\r\nMovespeed increased by 1\r\nPlayer takes 1 extra damage from all sources"; }
 		public override void Apply()
 		{
@@ -285,7 +285,7 @@ public class Augments
 		}
 	}
 
-	public static List<AugmentBase> All()
+    public static List<AugmentBase> All()
     {
         List<AugmentBase> augments = new List<AugmentBase>() 
         { 
