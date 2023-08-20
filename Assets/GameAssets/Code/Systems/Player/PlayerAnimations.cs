@@ -161,6 +161,11 @@ public class PlayerAnimations : MonoBehaviour
 		}
 	}
 
+	public void Death(bool value)
+	{
+		anim.SetBool(Constants.Player.Animations.IsDead, value);
+	}
+
 	private void OnEnable()
 	{
 		eventBrokerComponent.Subscribe<PlayerAttackEvents.ResetPlayerAttackStage>(HandleResetPlayerAttackStage);

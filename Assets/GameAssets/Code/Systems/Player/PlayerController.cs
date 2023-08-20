@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
 	private FlashEffect flash;
 
 	private bool isInvulnerable = false;
+	private bool isDead = false;
 
 	private EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
 
@@ -128,6 +129,29 @@ public class PlayerController : MonoBehaviour
 		flash.StopFlash();
 	}
 
+	private void Death()
+	{
+		isDead = true;
+		playerAnimations.Death(true);
+		eventBrokerComponent.Publish(this, new GameModeEvents.PlayerDeath());
+		this.enabled = false;
+	}
+
+	private void TakeDamage(int damage)
+	{
+		if (isInvulnerable || isDead) return;
+        health.Value -= damage;
+        eventBrokerComponent.Publish(this, new UIEvents.SetHealth(health.Value));
+        if (health.Value <= 0)
+        {
+            Death();
+        }
+        else
+        {
+            StartCoroutine(StartInvulnerabilityTimer());
+        }
+    }
+
 	#region EventBroker Handlers
 	private void IncreasePlayerHealthHandler(BrokerEvent<HealthEvents.IncreasePlayerHealth> inEvent)
 	{
@@ -140,12 +164,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (collision.gameObject.tag == Constants.Enemy.AttackTriggerTag || collision.gameObject.tag == Constants.Enemy.ProjectileTag)
 		{
-			if (!isInvulnerable)
-			{
-				health.Value -= PlayerStats.DamageTakenFromHit;
-				eventBrokerComponent.Publish(this, new UIEvents.SetHealth(health.Value));
-				StartCoroutine(StartInvulnerabilityTimer());
-			}
+			TakeDamage(PlayerStats.DamageTakenFromHit);
 		}
 
 		if (collision.gameObject.tag == Constants.Enemy.ProjectileTag)
@@ -164,7 +183,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (collision.transform.tag == Constants.EnvironmentHazard.Tag)
 		{
-			health.Value -= collision.transform.GetComponent<EnvironmentHazard>().Damage;
+			TakeDamage(collision.transform.GetComponent<EnvironmentHazard>().Damage);
 		}
 	}
 }

@@ -25,6 +25,7 @@ public partial class Constants
 			public const string IsSpecialAttack = "IsSpecialAttack";
 			public const string Horizontal = "Horizontal";
 			public const string Vertical = "Vertical";
+			public const string IsDead = "IsDead";
 		}
 
 		public class Attacks

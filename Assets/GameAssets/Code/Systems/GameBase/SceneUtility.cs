@@ -31,7 +31,7 @@ public class SceneUtility
             //yield return new WaitForSeconds(1f);
             UnloadScene(currentScene);
         }
-        LoadScene(nextSceneName);
+        LoadScene(nextSceneName == null ? currentActiveScene : nextSceneName);
         
     }
 
@@ -80,7 +80,7 @@ public class SceneUtility
 
     public void SetActiveScene(string sceneName)
     {
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName == null ? currentScene : sceneName));
     }
 
 

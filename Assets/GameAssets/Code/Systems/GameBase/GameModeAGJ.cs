@@ -10,6 +10,9 @@ public class GameModeAGJ : GameModeBase
     [SerializeField] private AugmentUI augmentUI;
     [SerializeField] private EnemyRangedStats enemyRangedStats;
     [SerializeField] private EnemyMeleeStats enemyMeleeStats;
+
+    [SerializeField] GameObject ContinueScreen;
+    
     protected override void Start()
     {
         base.Start();
@@ -24,6 +27,7 @@ public class GameModeAGJ : GameModeBase
         eventBrokerComponent.Subscribe<AugmentEvents.SelectAugment>(SelectAugmentHandler);
         eventBrokerComponent.Subscribe<EnemyEvents.GetEnemyMeleeStats>(GetEnemyMeleeStatsHandler);
         eventBrokerComponent.Subscribe<EnemyEvents.GetEnemyRangedStats>(GetEnemyRangedStatsHandler);
+
     }
 
     protected override void OnDisable()
@@ -70,8 +74,25 @@ public class GameModeAGJ : GameModeBase
         eventBrokerComponent.Publish(this, new GameStateEvents.SetPlayerControllerState(!inEvent.Payload.Visible));
     }
 
+
     private AugmentBase SelectRandomAugment()
     {
         return possibleAugments[Random.Range(0, possibleAugments.Count)];
+    }
+
+    protected override void PlayerDeathHandler(BrokerEvent<GameModeEvents.PlayerDeath> inEvent)
+    {
+        base.PlayerDeathHandler(inEvent);
+        Color endColor = backroundFadePanel.color;
+        endColor.a = 1;
+        StartCoroutine(Fade(backroundFadePanel.color, endColor, 2f, () => {
+            ContinueScreen.SetActive(true);
+        }));
+    }
+
+    public void ContinueScreenContinueButton()
+    {
+        eventBrokerComponent.Publish(this, new GameModeEvents.ChangeScene(null));
+        ContinueScreen.SetActive(false);
     }
 }
