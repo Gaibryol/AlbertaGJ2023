@@ -14,6 +14,10 @@ public class EnemyAttackPatternSingle : EnemyAttackPattern
 
         GameObject spawnedProjectile = Instantiate(projectile, projectileSpawnPosition.position, Quaternion.identity);
         Vector2 direction;
+        if (parent == null)
+        {
+            parent = GetComponent<EnemyAttack>();
+        }
         parent.InRange(out direction);
         if (direction != Vector2.zero)
         {
