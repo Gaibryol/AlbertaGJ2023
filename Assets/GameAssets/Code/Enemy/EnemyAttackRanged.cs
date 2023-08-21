@@ -25,6 +25,7 @@ public class EnemyAttackRanged : EnemyAttack
     private IEnumerator WaitForAnticipation()
     {
         yield return new WaitForSeconds(projectileSpawnDelay);
+        attackPatterns = GetComponents<EnemyAttackPattern>().ToList();
         foreach (EnemyAttackPattern pattern in attackPatterns)
         {
             pattern.StartAttackPattern();
